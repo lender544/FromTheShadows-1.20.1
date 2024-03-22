@@ -18,6 +18,7 @@ public class TagRegistry {
     public static final TagKey<Item> CAN_HIT_NEHEMOTH_STATUE = registerItemTag("can_hit_nehemoth_statue");
     public static final TagKey<Item> NEHEMOTH_STATUE_LOOT = registerItemTag("nehemoth_statue_loot");
 
+    public static final TagKey<EntityType<?>> FROGLIN_NOT_SWALLOW = registerEntityTag("froglin_not_swallow");
 
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {

@@ -1,4 +1,4 @@
-package net.sonmok14.fromtheshadows.server;
+package net.sonmok14.fromtheshadows.server.config;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
@@ -28,7 +28,6 @@ public class FTSConfig {
         public final ConfigValue<Double> froglin_vomit_damage;
         public final ConfigValue<Double> froglin_melee_damage;
 
-
         public final ConfigValue<Double> bulldrogioth_health;
         public final ConfigValue<Double> bulldrogioth_melee_damage;
 
@@ -40,9 +39,12 @@ public class FTSConfig {
         public final ForgeConfigSpec.IntValue clericSpawnRate;
         public final ForgeConfigSpec.IntValue soulfirenehemothSpawnRate;
         public final ForgeConfigSpec.IntValue nehemothSpawnRate;
+        public final ForgeConfigSpec.IntValue nehemothSpawnRolls;
         public final ForgeConfigSpec.IntValue nehemothFortressSpawnRate;
         public final ForgeConfigSpec.IntValue bulldrogiothSpawnRate;
+        public final ForgeConfigSpec.IntValue bulldrogiothSpawnRolls;
         public final ForgeConfigSpec.IntValue froglinSpawnRate;
+        public final ForgeConfigSpec.IntValue froglinSpawnRolls;
 //--------------------------------------------------------------------------------
         public final ConfigValue<Double> thirst_for_blood_damage;
         public final ConfigValue<Double> thirst_for_blood_laser_damage;
@@ -107,6 +109,15 @@ public class FTSConfig {
             froglinSpawnRate = builder.comment("Changed Froglin SpawnRate. [0 ~ 100]")
                     .defineInRange("Froglin SpawnRate", 2, 0, 100);
             builder.pop();
+            builder.push("SpawnRoll");
+            nehemothSpawnRolls = builder.comment("Random roll chance to enable mob spawning. Higher number = lower chance of spawning")
+                    .defineInRange("Nehemoth SpawnRoll", 15, 0, Integer.MAX_VALUE);
+            bulldrogiothSpawnRolls = builder.comment("Random roll chance to enable mob spawning. Higher number = lower chance of spawning")
+                    .defineInRange("Bulldrogioth SpawnRoll", 15, 0, Integer.MAX_VALUE);
+            froglinSpawnRolls = builder.comment("Random roll chance to enable mob spawning. Higher number = lower chance of spawning")
+                    .defineInRange("Froglin SpawnRoll", 8, 0, Integer.MAX_VALUE);
+            builder.pop();
+
             builder.push("Equipment");
             this.thirst_for_blood_damage = builder.translation("text.fromtheshadows.config.thirst_for_blood_damage")
                     .defineInRange("Sets Thirst For Blood Damage", 8, 1, Double.MAX_VALUE);

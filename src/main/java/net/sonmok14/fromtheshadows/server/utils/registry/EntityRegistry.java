@@ -1,8 +1,15 @@
 package net.sonmok14.fromtheshadows.server.utils.registry;
 
+import com.google.common.base.Predicates;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
+import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -10,6 +17,10 @@ import net.sonmok14.fromtheshadows.server.Fromtheshadows;
 import net.sonmok14.fromtheshadows.server.entity.*;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.*;
 
+import java.util.function.Predicate;
+
+
+@Mod.EventBusSubscriber(modid = Fromtheshadows.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
             Fromtheshadows.MODID);
@@ -66,4 +77,35 @@ public class EntityRegistry {
             .sized(1.0f, 1.0f)
             .setUpdateInterval(Integer.MAX_VALUE)
             .build(Fromtheshadows.MODID + ":froglin_vomit"));
+
+    public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){
+        if(entityTag == null){
+            return Predicates.alwaysFalse();
+        }else{
+            return (com.google.common.base.Predicate<LivingEntity>) e -> e.isAlive() && e.getType().is(entityTag);
+        }
+    }
+
+    public static boolean rollSpawn(int rolls, RandomSource random, MobSpawnType reason){
+        if(reason == MobSpawnType.SPAWNER){
+            return true;
+        }else{
+            return rolls <= 0 || random.nextInt(rolls) == 0;
+        }
+    }
+
+    @SubscribeEvent
+    public static void initializeAttributes(EntityAttributeCreationEvent event) {
+        event.put(EntityRegistry.NEHEMOTH.get(), NehemothEntity.createAttributes().build());
+        SpawnPlacements.register(EntityRegistry.NEHEMOTH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, NehemothEntity::canNehemothSpawn);
+
+        event.put(EntityRegistry.FROGLIN.get(), FroglinEntity.createAttributes().build());
+        SpawnPlacements.register(EntityRegistry.FROGLIN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FroglinEntity::canFroglinSpawn);
+
+        event.put(EntityRegistry.BULLDROGIOTH.get(), BulldrogiothEntity.createAttributes().build());
+        SpawnPlacements.register(EntityRegistry.BULLDROGIOTH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BulldrogiothEntity::canBulldrogiothSpawn);
+
+        event.put(EntityRegistry.CLERIC.get(), ClericEntity.createAttributes().build());
+    }
+
 }

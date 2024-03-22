@@ -41,9 +41,11 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
-import net.sonmok14.fromtheshadows.server.FTSConfig;
+import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.entity.ai.*;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.FrogVomit;
+import net.sonmok14.fromtheshadows.server.utils.registry.EntityRegistry;
+import net.sonmok14.fromtheshadows.server.utils.registry.TagRegistry;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -195,15 +197,15 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
         return worldIn.getBiome(position).is(Tags.Biomes.IS_SWAMP);
     }
 
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+        return EntityRegistry.rollSpawn(FTSConfig.SERVER.froglinSpawnRolls.get(), this.getRandom(), spawnReasonIn);
+    }
+
     public static boolean checkMonsterSpawnRules(EntityType<? extends Monster> p_33018_, ServerLevelAccessor p_33019_, MobSpawnType p_33020_, BlockPos p_33021_, RandomSource p_33022_) {
         return p_33019_.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(p_33018_, p_33019_, p_33020_, p_33021_, p_33022_);
     }
     public static <T extends Mob> boolean canFroglinSpawn(EntityType<FroglinEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        if(isBiomeSwamp(iServerWorld, pos))
-        {
-            return reason == MobSpawnType.SPAWNER || checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random) && random.nextInt(2) == 0;
-        }
-            return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isBiomeSwamp(iServerWorld, pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random));
     }
     @Override
     public boolean canRiderInteract() {
@@ -684,7 +686,7 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
 
         public boolean canUse() {
             this.attackTarget = this.froglinEntity.getTarget();
-            return attackTarget != null && this.froglinEntity.attackID == 0 && (distanceTo(attackTarget) <= 4.0D && random.nextInt(10) == 0 && attackTarget.getBbHeight() < 1F && !isFull());
+            return attackTarget != null && this.froglinEntity.attackID == 0 && (distanceTo(attackTarget) <= 4.0D && random.nextInt(10) == 0 && !attackTarget.getType().is(TagRegistry.FROGLIN_NOT_SWALLOW) && attackTarget.getBbHeight() < 1F && !isFull());
         }
 
         public void start() {

@@ -9,19 +9,18 @@ import net.minecraftforge.common.world.StructureModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
-import net.sonmok14.fromtheshadows.server.utils.registry.WorldRegistry;
 
+public class FTSMobSpawnStructureModifier implements StructureModifier {
 
-public class FTSStructureModifier implements StructureModifier {
-    private static final RegistryObject<Codec<? extends StructureModifier>> SERIALIZER = RegistryObject.create(new ResourceLocation(Fromtheshadows.MODID, "fts_structure_spawns"), ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Fromtheshadows.MODID);
+    private static final RegistryObject<Codec<? extends StructureModifier>> SERIALIZER = RegistryObject.create(new ResourceLocation(Fromtheshadows.MODID, "from_the_shadows_structure_spawns"), ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Fromtheshadows.MODID);
 
-    public FTSStructureModifier() {
+    public FTSMobSpawnStructureModifier() {
     }
 
     @Override
     public void modify(Holder<Structure> structure, Phase phase, ModifiableStructureInfo.StructureInfo.Builder builder) {
-        if (phase == StructureModifier.Phase.ADD) {
-            WorldRegistry.modifyStructure(structure, builder);
+        if (phase == Phase.ADD) {
+            FTSWorldRegistry.modifyStructure(structure, builder);
 
         }
     }
@@ -30,7 +29,7 @@ public class FTSStructureModifier implements StructureModifier {
         return (Codec)SERIALIZER.get();
     }
 
-    public static Codec<FTSStructureModifier> makeCodec() {
-        return Codec.unit(FTSStructureModifier::new);
+    public static Codec<FTSMobSpawnStructureModifier> makeCodec() {
+        return Codec.unit(FTSMobSpawnStructureModifier::new);
     }
 }

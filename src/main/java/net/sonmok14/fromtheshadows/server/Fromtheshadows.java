@@ -12,6 +12,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -21,9 +23,12 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.sonmok14.fromtheshadows.client.ClientProxy;
+import net.sonmok14.fromtheshadows.server.config.BiomeConfig;
+import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.utils.event.ServerEvents;
 import net.sonmok14.fromtheshadows.server.utils.registry.*;
-import net.sonmok14.fromtheshadows.server.world.biome.FTSStructureModifier;
+import net.sonmok14.fromtheshadows.server.world.biome.FTSMobSpawnBiomeModifier;
+import net.sonmok14.fromtheshadows.server.world.biome.FTSMobSpawnStructureModifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import software.bernie.geckolib.GeckoLib;
@@ -38,10 +43,8 @@ public class Fromtheshadows
     public static final String MODID = "fromtheshadows";
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final ResourceLocation ADD_SPAWNS_TO_BIOMES = new ResourceLocation(MODID, "mobspawns");
     public static CommonProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-    public Fromtheshadows()
-    {
+    public Fromtheshadows() {
         FTSConfig.loadConfig(FTSConfig.SERVER_SPEC,
                 FMLPaths.CONFIGDIR.get().resolve("fromtheshadows-config.toml").toString());
         instance = this;
@@ -53,10 +56,8 @@ public class Fromtheshadows
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::enqueueIMC);
         modEventBus.addListener(this::processIMC);
+        modEventBus.addListener(this::onModConfigEvent);
         MinecraftForge.EVENT_BUS.register(this);
-        final DeferredRegister<Codec<? extends StructureModifier>> structureModifiers = DeferredRegister.create(ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Fromtheshadows.MODID);
-        structureModifiers.register(modEventBus);
-        structureModifiers.register("fts_structure_spawns", FTSStructureModifier::makeCodec);
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
         EntityRegistry.ENTITY_TYPES.register(modEventBus);
         BlockRegistry.BLOCKS.register(modEventBus);
@@ -66,17 +67,20 @@ public class Fromtheshadows
         EffectRegistry.EFFECT.register(modEventBus);
         EffectRegistry.POTION.register(modEventBus);
         ItemRegistry.ITEMS.register(modEventBus);
-        ModBiomeModifiers.BIOME_MODIFIER_SERIALIZERS.register(modEventBus);
         FTSCreativeTabRegistry.TABS.register(modEventBus);
-        final DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister
-                .create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, MODID);
-        serializers.register(modEventBus);
-        serializers.register("mobspawns", EntitySpawnRegistry::makeCodec);
+        final DeferredRegister<Codec<? extends BiomeModifier>> biomeModifiers = DeferredRegister.create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Fromtheshadows.MODID);
+        biomeModifiers.register(modEventBus);
+        biomeModifiers.register("from_the_shadows_mob_spawns", FTSMobSpawnBiomeModifier::makeCodec);
+        final DeferredRegister<Codec<? extends StructureModifier>> structureModifiers = DeferredRegister.create(ForgeRegistries.Keys.STRUCTURE_MODIFIER_SERIALIZERS, Fromtheshadows.MODID);
+        structureModifiers.register(modEventBus);
+        structureModifiers.register("from_the_shadows_structure_spawns", FTSMobSpawnStructureModifier::makeCodec);
+
+
     }
 
-
-    public static ResourceLocation prefix(String name) {
-        return new ResourceLocation(MODID, name.toLowerCase(Locale.ROOT));
+    @SubscribeEvent
+    public void onModConfigEvent(final ModConfigEvent event) {
+       // BiomeConfig.init();
     }
 
     private void setup(final FMLCommonSetupEvent event) {

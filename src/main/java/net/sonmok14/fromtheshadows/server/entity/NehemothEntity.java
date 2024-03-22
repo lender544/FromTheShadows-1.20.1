@@ -48,7 +48,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.FluidType;
-import net.sonmok14.fromtheshadows.server.FTSConfig;
+import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.DoomBreathEntity;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.ScreenShakeEntity;
@@ -306,17 +306,12 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         return 1;
     }
 
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+        return EntityRegistry.rollSpawn(FTSConfig.SERVER.nehemothSpawnRolls.get(), this.getRandom(), spawnReasonIn);
+    }
+
     public static <T extends Mob> boolean canNehemothSpawn(EntityType<NehemothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-    if (isNether(iServerWorld, pos))
-        {
-            if(isBiomeSoulSandValley(iServerWorld, pos))
-                {
-                    return reason == MobSpawnType.SPAWNER || checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random) && random.nextInt(20) == 0;
-                }
-            return reason == MobSpawnType.SPAWNER || checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random) && random.nextInt(20) == 0;
-        }
-        else
-        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && random.nextInt(10) == 0 && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isNether(iServerWorld, pos)) && isBiomeSoulSandValley(iServerWorld, pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
     }
 
 
@@ -347,7 +342,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     }
 
     public boolean canBeSeenAsEnemy() {
-        return !isStone();
+        return !isStone() && super.canBeSeenAsEnemy();
     }
     @Override
     public boolean isPushedByFluid(FluidType type) {
