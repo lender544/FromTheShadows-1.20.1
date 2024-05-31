@@ -55,6 +55,7 @@ import net.sonmok14.fromtheshadows.server.entity.projectiles.ScreenShakeEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.EntityRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.SoundRegistry;
+import net.sonmok14.fromtheshadows.server.utils.registry.TagRegistry;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -548,7 +549,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                 BlockState block = level().getBlockState(pos);
                 BlockState blockAbove = level().getBlockState(abovePos);
 
-                if (level().getBlockState(pos) != Blocks.AIR.defaultBlockState()) {
+                if (level().getBlockState(pos) != Blocks.AIR.defaultBlockState() && !block.is(TagRegistry.NEHEMOTH_FALLING_BLOCK_IMMUNE)) {
                     FallingBlockEntity fallingBlockEntity = new FallingBlockEntity(level(), hitX + 0.5D, hitY + 0.5D, hitZ + 0.5D, block);
                     level().setBlock(pos, block.getFluidState().createLegacyBlock(), 3);
                     fallingBlockEntity.push(getRandom().nextGaussian() * 0.2, 0.2D + getRandom().nextGaussian() * 0.2D, getRandom().nextGaussian() * 0.2);

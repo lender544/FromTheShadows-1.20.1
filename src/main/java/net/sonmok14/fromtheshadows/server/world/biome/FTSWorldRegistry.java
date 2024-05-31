@@ -22,10 +22,10 @@ public class FTSWorldRegistry {
 
     public static void modifyStructure(Holder<Structure> structure, ModifiableStructureInfo.StructureInfo.Builder builder) {
         if (structure.is(BuiltinStructures.WOODLAND_MANSION) && FTSConfig.SERVER.clericSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.SERVER.clericSpawnRate.get(), 1, 2));
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.SERVER.clericSpawnRate.get(), 1, 1));
         }
         if (structure.is(BuiltinStructures.PILLAGER_OUTPOST) && FTSConfig.SERVER.clericSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.SERVER.clericSpawnRate.get(), 1, 2));
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.SERVER.clericSpawnRate.get(), 1, 1));
         }
         if (structure.is(BuiltinStructures.OCEAN_RUIN_COLD) && FTSConfig.SERVER.bulldrogiothShipwreckSpawnRate.get() > 0) {
             builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.BULLDROGIOTH.get(), FTSConfig.SERVER.bulldrogiothShipwreckSpawnRate.get(), 1, 1));

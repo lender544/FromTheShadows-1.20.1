@@ -30,14 +30,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.ThrowingDaggerEntity;
-import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
-import net.sonmok14.fromtheshadows.server.utils.registry.EnchantmentRegistry;
-import net.sonmok14.fromtheshadows.server.utils.registry.ItemRegistry;
-import net.sonmok14.fromtheshadows.server.utils.registry.SoundRegistry;
+import net.sonmok14.fromtheshadows.server.utils.registry.*;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -204,6 +202,11 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
             super.handleEntityEvent(id);
         }
     }
+
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+        return EntityRegistry.rollSpawn(FTSConfig.SERVER.clericSpawnRolls.get(), this.getRandom(), spawnReasonIn);
+    }
+
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor p_34088_, DifficultyInstance p_34089_, MobSpawnType p_34090_, @javax.annotation.Nullable SpawnGroupData p_34091_, @javax.annotation.Nullable CompoundTag p_34092_) {
         SpawnGroupData spawngroupdata = super.finalizeSpawn(p_34088_, p_34089_, p_34090_, p_34091_, p_34092_);

@@ -37,6 +37,7 @@ public class FTSConfig {
 
         public final ForgeConfigSpec.IntValue bulldrogiothShipwreckSpawnRate;
         public final ForgeConfigSpec.IntValue clericSpawnRate;
+        public final ForgeConfigSpec.IntValue clericSpawnRolls;
         public final ForgeConfigSpec.IntValue soulfirenehemothSpawnRate;
         public final ForgeConfigSpec.IntValue nehemothSpawnRate;
         public final ForgeConfigSpec.IntValue nehemothSpawnRolls;
@@ -110,6 +111,8 @@ public class FTSConfig {
                     .defineInRange("Froglin SpawnRate", 2, 0, 100);
             builder.pop();
             builder.push("SpawnRoll");
+            clericSpawnRolls = builder.comment("Random roll chance to enable mob spawning. Higher number = lower chance of spawning")
+                    .defineInRange("Cleric SpawnRoll", 25, 0, Integer.MAX_VALUE);
             nehemothSpawnRolls = builder.comment("Random roll chance to enable mob spawning. Higher number = lower chance of spawning")
                     .defineInRange("Nehemoth SpawnRoll", 15, 0, Integer.MAX_VALUE);
             bulldrogiothSpawnRolls = builder.comment("Random roll chance to enable mob spawning. Higher number = lower chance of spawning")
