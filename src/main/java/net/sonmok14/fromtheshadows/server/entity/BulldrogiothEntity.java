@@ -315,10 +315,6 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                         return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.growl"));
                     }
                     return PlayState.STOP;
-                }).setSoundKeyframeHandler(event -> {
-                    if (event.getKeyframeData().getSound().matches("growlkey"))
-                        if (this.level().isClientSide)
-                            this.getCommandSenderWorld().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundRegistry.BULLDROGIOTH_IDLE.get(), SoundSource.HOSTILE, 0.5F, getVoicePitch() + this.getRandom().nextFloat() * 0.1F, false);
                 }));
         controllerRegistrar.add(
                 new AnimationController<>(this, "hurt", 20, event -> {
@@ -328,10 +324,6 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                         return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.hurt"));
                     }
                     return PlayState.STOP;
-                }).setSoundKeyframeHandler(event -> {
-                    if (event.getKeyframeData().getSound().matches("hurtkey"))
-                        if (this.level().isClientSide)
-                            this.getCommandSenderWorld().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundRegistry.BULLDROGIOTH_HURT.get(), SoundSource.HOSTILE, 0.5F, getVoicePitch() + this.getRandom().nextFloat() * 0.1F, false);
                 }));
     }
 
@@ -486,6 +478,11 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                 this.SwimProgress--;
         }
 
+        if (this.growlingProgress == 30 && isAlive())
+        {
+            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegistry.BULLDROGIOTH_IDLE.get(),SoundSource.HOSTILE, 1F, 1F + this.getRandom().nextFloat() * 0.1F);
+        }
+
         if (this.horizontalCollision && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
             boolean flag = false;
             AABB aabb = this.getBoundingBox().inflate(0.2D);
@@ -552,6 +549,11 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
             --this.growlingProgress;
         }
 
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource p_33034_) {
+        return SoundRegistry.BULLDROGIOTH_HURT.get();
     }
 
     protected float nextStep() {
@@ -689,10 +691,6 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
     }
 
 
-    @Override
-    protected SoundEvent getHurtSound(DamageSource p_33034_) {
-        return null;
-    }
 
     @Override
     protected void registerGoals() {
@@ -711,7 +709,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Axolotl.class, true));
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, false));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, false));
         this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.7D, 25, true));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(11, new LookAtPlayerGoal(this, Player.class, 6.0F));

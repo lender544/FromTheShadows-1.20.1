@@ -3,8 +3,12 @@ package net.sonmok14.fromtheshadows.client.renderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EndermanRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.phys.Vec3;
 import net.sonmok14.fromtheshadows.client.models.NehemothModel;
 import net.sonmok14.fromtheshadows.client.renderer.layer.NehemothLayerRenderer;
 import net.sonmok14.fromtheshadows.server.entity.NehemothEntity;
@@ -119,6 +123,16 @@ public class NehemothRenderer extends GeoEntityRenderer<NehemothEntity> {
         stack.scale(1.2f, 1.2f, 1.2f);
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
         stack.popPose();
+    }
+
+    private final RandomSource random = RandomSource.create();
+
+    public Vec3 getRenderOffset(NehemothEntity p_114336_, float p_114337_) {
+        if (p_114336_.attackID == 4 && p_114336_.attacktick > 11 && p_114336_.attacktick < 52) {
+            return new Vec3(this.random.nextGaussian() * 0.1, 0.0, this.random.nextGaussian() * 0.1);
+        } else {
+            return super.getRenderOffset(p_114336_, p_114337_);
+        }
     }
 }
 

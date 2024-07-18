@@ -16,7 +16,7 @@ modId="fromtheshadows" #mandatory
 version="${mod_version}" #mandatory
 # A display name for the mod
 displayName="${mod_name}" #mandatory
-displayURL="https://www.curseforge.com/minecraft/mc-mods/from-the-shadows" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/from-the-shadow-reborn" #optional
 logoFile="logo.png"
 authors="${mod_authors}" #optional
 # The description text for the mod (multi line!) (#mandatory)

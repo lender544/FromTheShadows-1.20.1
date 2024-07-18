@@ -16,6 +16,7 @@ public class BiomeConfig {
 
 	public static final Pair<String, SpawnBiomeData> bulldrogith = Pair.of("fromtheshadows:bulldrogith_spawns", DefaultBiomes.BULLDROGIOTH);
 	public static final Pair<String, SpawnBiomeData> nehemoth = Pair.of("fromtheshadows:nehemoth_spawns", DefaultBiomes.NEHEMOTH);
+	public static final Pair<String, SpawnBiomeData> soulnehemoth = Pair.of("fromtheshadows:soul_nehemoth_spawns", DefaultBiomes.SOUL_NEHEMOTH);
 	public static final Pair<String, SpawnBiomeData> murlock = Pair.of("fromtheshadows:froglin_spawns", DefaultBiomes.MURLOCK);
 
 	private static boolean init = false;

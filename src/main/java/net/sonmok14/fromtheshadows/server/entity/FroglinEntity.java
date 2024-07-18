@@ -68,6 +68,7 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
     private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(FroglinEntity.class, EntityDataSerializers.INT);
     public float blinkProgress;
     public float croakingProgress;
+    public float jumpCoolDown;
     public int attacktick;
     public int attackID;
     public static final byte MELEE_ATTACK = 1;
@@ -432,7 +433,12 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
         if (!level().isClientSide) {
             this.removeEffect(MobEffects.POISON);
         }
-
+        if (this.jumpCoolDown > 0) {
+            --this.jumpCoolDown;
+        }
+        if (this.jumpCoolDown == 0 && this.attackID == JUMP_ATTACK) {
+            this.jumpCoolDown = 150;
+        }
         this.setMaxUpStep(1.0F);
         if(attackID == 0)
         {
@@ -606,7 +612,7 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
 
                 froglinEntity.push(f1 * 0.3, 0, f2 * 0.3);
             }
-            if (attacktick == 12) {
+            if (attacktick == 9) {
               meleeattack();
             }
             getNavigation().recomputePath();

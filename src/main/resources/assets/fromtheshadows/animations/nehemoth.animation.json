@@ -5632,6 +5632,39 @@
 				}
 			}
 		},
+		"animation.nehemoth.eyeglow": {
+			"animation_length": 1,
+			"bones": {
+				"right_eye_glow": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.375": {
+							"vector": [1.8, 1.8, 1.8],
+							"easing": "easeInOutSine"
+						},
+						"1.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				},
+				"left_eye_glow": {
+					"scale": {
+						"0.0": {
+							"vector": [1, 1, 1]
+						},
+						"0.375": {
+							"vector": [1.8, 1.8, 1.8],
+							"easing": "easeInOutSine"
+						},
+						"1.0": {
+							"vector": [1, 1, 1]
+						}
+					}
+				}
+			}
+		},
 		"animation.nehemoth.new": {
 			"loop": true
 		}

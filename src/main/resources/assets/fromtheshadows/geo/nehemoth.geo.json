@@ -390,6 +390,24 @@
 					]
 				},
 				{
+					"name": "right_eye_glow",
+					"parent": "head",
+					"pivot": [-2.075, 41.9, -6.775],
+					"cubes": [
+						{"origin": [-2.05, 37.6, -9.525], "size": [0, 7, 5], "uv": [22, 91]},
+						{"origin": [-4.3, 37.6, -6.775], "size": [5, 7, 0], "uv": [22, 89]}
+					]
+				},
+				{
+					"name": "left_eye_glow",
+					"parent": "head",
+					"pivot": [1.95, 41.875, -7.1],
+					"cubes": [
+						{"origin": [-0.8, 37.6, -7.075], "size": [5, 7, 0], "uv": [22, 89], "mirror": true},
+						{"origin": [1.95, 37.6, -9.825], "size": [0, 7, 5], "uv": [22, 91], "mirror": true}
+					]
+				},
+				{
 					"name": "righthornrotate",
 					"parent": "head",
 					"pivot": [-0.3, 33.23673, -7.37819],

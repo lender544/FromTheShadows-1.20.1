@@ -82,6 +82,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     public int smashCooldown;
     public int breathCooldown;
     public int roarCooldown;
+
     public float growlProgress;
     public static final byte MELEE_ATTACK = 1;
     public static final byte BITE_ATTACK = 3;
@@ -108,6 +109,11 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar data) {
         data.add(
+                new AnimationController<>(this, "eyeglow", 5, event -> {
+  event.setAndContinue(RawAnimation.begin().thenLoop("animation.nehemoth.eyeglow"));
+                    return PlayState.CONTINUE;
+                }));
+        data.add(
                 new AnimationController<>(this, "growl", 15, event -> {
                     if (this.growlProgress <= 50 && isAlive() && !isStone() && this.getTarget() == null)
                     {
@@ -116,7 +122,6 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                     event.resetCurrentAnimation();
                     return PlayState.STOP;
                 }));
-
         data.add(new AnimationController<>(this, "stone", 50,  event -> {
             if(isStone())
             {
@@ -312,8 +317,9 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     }
 
     public static <T extends Mob> boolean canNehemothSpawn(EntityType<NehemothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isNether(iServerWorld, pos)) && isBiomeSoulSandValley(iServerWorld, pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random) || isNether(iServerWorld, pos) && isBiomeSoulSandValley(iServerWorld, pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
     }
+
 
 
     @Override
@@ -458,10 +464,10 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
             this.biteCooldown = 250;
         }
         if (this.breathCooldown == 0 && this.attackID == BREATH_ATTACK) {
-            this.breathCooldown = 300;
+            this.breathCooldown = 250;
         }
         if (this.roarCooldown == 0 && this.attackID == ROAR_ATTACK) {
-            this.roarCooldown = 1500;
+            this.roarCooldown = 4500;
         }
         if (this.growlProgress == 0) {
             this.growlProgress = 150;
@@ -506,6 +512,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     public boolean killedEntity(ServerLevel p_216988_, LivingEntity p_216989_) {
         if(isAlive())
         {
+            breathCooldown = 0;
             biteCooldown = 0;
           roarCooldown = 0;
         }
@@ -584,7 +591,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         double d0 = p_33340_.getX() - this.getX();
         double d1 = p_33340_.getZ() - this.getZ();
         double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);
-        p_33340_.push(d0 / d2, 0.05D, d1 / d2);
+        p_33340_.push(d0 / d2, 0.1D, d1 / d2);
     }
     protected void blockedByShield(LivingEntity p_33361_) {
             if (this.random.nextDouble() < 0.5D && this.attackID == BITE_ATTACK) {
@@ -674,8 +681,6 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         if (this.isAlive()) {
             for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(8D, 1D, 8D))) {
                 if(!(livingentity instanceof NehemothEntity)) {
-                    livingentity.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 70, 0, false, false));
-                    livingentity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 130, 0, false, false));
                     this.strongKnockback(livingentity);
                 }
             }
@@ -814,15 +819,24 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
 
         public void tick() {
-            setYRot(yBodyRot);
+            if (attacktick == 6) {
+                if (attackTarget != null) {
+                    nehemoth.getLookControl().tick();
+                    nehemoth.getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
+                }
+            }
                 if (attacktick == 7) {
-                    yBodyRot = yHeadRot;
                     float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                     push(f1 * 0.3, 0, f2 * 0.3);
                 }
+            if (attacktick == 24) {
+                if (attackTarget != null) {
+                    nehemoth.getLookControl().tick();
+                    nehemoth.getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
+                }
+            }
                 if (attacktick == 25) {
-                    yBodyRot = yHeadRot;
                     float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                     push(f1 * 0.3, 0, f2 * 0.3);
@@ -851,7 +865,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
             public boolean canUse() {
                 this.attackTarget = this.nehemoth.getTarget();
-                return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3 && random.nextInt(2) == 0  && nehemoth.getPassengers().isEmpty() && biteCooldown == 0 && attackTarget.getBbWidth() < nehemoth.getBbWidth();
+                return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3 && random.nextInt(2) == 0 && getVariant() == 0 && nehemoth.getPassengers().isEmpty() && biteCooldown == 0 && attackTarget.getBbWidth() < nehemoth.getBbWidth();
             }
 
             public void start() {
@@ -1031,7 +1045,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
         public void tick() {
                 if (attacktick < 58 && attackTarget.isAlive() && attackTarget != null) {
-                    getLookControl().setLookAt(attackTarget,30F, 90.0F);
+                    getLookControl().setLookAt(attackTarget,80F, 90.0F);
                 }
 
                 if(attacktick > 8 && attacktick < 52)

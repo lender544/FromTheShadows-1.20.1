@@ -52,11 +52,11 @@ public class Fromtheshadows
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::setup);
         PROXY.commonInit();
+        BiomeConfig.init();
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::setup);
         modEventBus.addListener(this::enqueueIMC);
         modEventBus.addListener(this::processIMC);
-        modEventBus.addListener(this::onModConfigEvent);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(new ServerEvents());
         EntityRegistry.ENTITY_TYPES.register(modEventBus);
@@ -76,11 +76,6 @@ public class Fromtheshadows
         structureModifiers.register("from_the_shadows_structure_spawns", FTSMobSpawnStructureModifier::makeCodec);
 
 
-    }
-
-    @SubscribeEvent
-    public void onModConfigEvent(final ModConfigEvent event) {
-       // BiomeConfig.init();
     }
 
     private void setup(final FMLCommonSetupEvent event) {

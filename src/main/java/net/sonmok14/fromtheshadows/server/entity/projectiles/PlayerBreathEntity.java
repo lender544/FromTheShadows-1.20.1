@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -31,6 +32,7 @@ import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.utils.registry.DamageRegistry;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,11 +82,11 @@ public class PlayerBreathEntity extends Entity {
         }
     }
 
-
     @Override
     public PushReaction getPistonPushReaction() {
         return PushReaction.IGNORE;
     }
+
 
     @Override
     public void tick() {
@@ -149,14 +151,11 @@ public class PlayerBreathEntity extends Entity {
             if (!level().isClientSide) {
                 for (LivingEntity target : hit) {
                     if (target != this.caster) {
-
                         boolean flag = target.hurt(DamageRegistry.causeIncinerateDamage(caster), FTSConfig.SERVER.thirst_for_blood_laser_damage.get().floatValue());
                             if (flag) {
                                 target.setSecondsOnFire(5);
                             }
                     }
-
-
                 }
             }
         }

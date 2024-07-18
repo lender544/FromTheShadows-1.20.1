@@ -64,13 +64,13 @@ public class FTSConfig {
         public Server(ForgeConfigSpec.Builder builder) {
             builder.push("Nehemoth");
             this.nehemoth_health = builder.translation("text.fromtheshadows.config.nehemoth_health")
-                    .defineInRange("Sets Nehemoth Max Health", 120, 1, Double.MAX_VALUE);
+                    .defineInRange("Sets Nehemoth Max Health", 100, 1, Double.MAX_VALUE);
             this.nehemoth_ranged_damage = builder.translation("text.fromtheshadows.config.nehemoth_ranged")
                     .defineInRange("Sets Nehemoth Ranged Damage", 3, 1, Double.MAX_VALUE);
             this.nehemoth_laser_damage = builder.translation("text.fromtheshadows.config.nehemoth_laser")
                     .defineInRange("Sets Nehemoth Laser Damage", 3, 1, Double.MAX_VALUE);
             this.nehemoth_melee_damage = builder.translation("text.fromtheshadows.config.nehemoth_melee")
-                    .defineInRange("Sets Nehemoth Melee Damage", 8, 1, Double.MAX_VALUE);
+                    .defineInRange("Sets Nehemoth Melee Damage", 7, 1, Double.MAX_VALUE);
             builder.pop();
             builder.push("Froglin");
             this.froglin_health = builder.translation("text.fromtheshadows.config.froglin_health")
@@ -82,7 +82,7 @@ public class FTSConfig {
             builder.pop();
             builder.push("Bulldrogioth");
             this.bulldrogioth_health = builder.translation("text.fromtheshadows.config.bulldrogioth_health")
-                    .defineInRange("Sets Bulldrogioth Max Health", 150, 1, Double.MAX_VALUE);
+                    .defineInRange("Sets Bulldrogioth Max Health", 100, 1, Double.MAX_VALUE);
             this.bulldrogioth_melee_damage = builder.translation("text.fromtheshadows.config.bulldrogioth_melee_damage")
                     .defineInRange("Sets Bulldrogioth Melee Damage", 15, 1, Double.MAX_VALUE);
             builder.pop();

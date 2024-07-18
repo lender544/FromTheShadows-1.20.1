@@ -14,6 +14,8 @@ import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 
 public class NehemothLayerRenderer extends GeoRenderLayer<NehemothEntity> {
+    private static final ResourceLocation BREATH_WARNING = new ResourceLocation(Fromtheshadows.MODID, "textures/entity/nehemoth_eye_breath.png");
+    private static final ResourceLocation BITE_WARNING = new ResourceLocation(Fromtheshadows.MODID, "textures/entity/nehemoth_eye_bite.png");
     private static final ResourceLocation RENDER_TYPE = new ResourceLocation(Fromtheshadows.MODID, "textures/entity/nehemoth_stone.png");
     private static final ResourceLocation LAYER = new ResourceLocation(Fromtheshadows.MODID, "textures/entity/nehemoth_eye.png");
     private static final ResourceLocation LAYER_SOUL = new ResourceLocation(Fromtheshadows.MODID, "textures/entity/nehemoth_eye_2.png");
@@ -29,6 +31,8 @@ public class NehemothLayerRenderer extends GeoRenderLayer<NehemothEntity> {
         RenderType normal =  RenderType.eyes(LAYER);
         RenderType nether1 =  FTSRenderType.eyes(LAYER_SOUL);
         RenderType nether2 =  RenderType.eyes(LAYER_SOUL_EYES);
+        RenderType bite_warning =  RenderType.eyes(BITE_WARNING);
+        RenderType breath_warning =  RenderType.eyes(BREATH_WARNING);
         RenderType stone =  RenderType.armorCutoutNoCull(RENDER_TYPE);
 
 
@@ -39,13 +43,24 @@ public class NehemothLayerRenderer extends GeoRenderLayer<NehemothEntity> {
         }
 
             if(!animatable.isStone()) {
+
                 if (animatable.getVariant() == 0) {
+                    if (animatable.biteCooldown == 0) {
+                        getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, bite_warning,
+                                bufferSource.getBuffer(bite_warning), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
+                                3, 1, 1, 1);
+                    }
                     getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, normal,
                             bufferSource.getBuffer(normal), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
                             3, 1, 1, 1);
                 }
             }
         if (animatable.getVariant() == 1) {
+            if (animatable.breathCooldown == 0) {
+                getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, breath_warning,
+                        bufferSource.getBuffer(breath_warning), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
+                        3, 1, 1, 1);
+            }
             getRenderer().reRender(getDefaultBakedModel(animatable), poseStack, bufferSource, animatable, nether1,
                     bufferSource.getBuffer(nether1), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
                     0.4f, 0.4f, 0.4f, 0.4f);
