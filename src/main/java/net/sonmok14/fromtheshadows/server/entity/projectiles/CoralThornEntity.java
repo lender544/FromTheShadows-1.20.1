@@ -87,7 +87,7 @@ public class CoralThornEntity extends AbstractArrow implements GeoEntity {
         Entity entity = this.getOwner();
         Entity entity2 = p_37573_.getEntity();
         if (entity instanceof LivingEntity livingentity) {
-            flag = entity2.hurt(this.damageSources().mobProjectile(this, livingentity), FTSConfig.SERVER.bulldrogioth_melee_damage.get().floatValue() / 2);
+            flag = entity2.hurt(this.damageSources().mobProjectile(this, livingentity), (float) (15 * FTSConfig.bulldrogioth_melee_damage_multiplier) / 2);
             if (flag && entity2 instanceof LivingEntity livingEntity2) {
                 if (entity.isAlive() && entity2 != null) {
                     this.playSound(soundevent, 0.5f, 1.0F);

@@ -43,7 +43,7 @@ public class ThirstforBloodItem extends SwordItem implements GeoItem {
     public ThirstforBloodItem(Item.Properties properties) {
         super(ToolMaterialRegistry.THIRST_FOR_BLOOD, 1, -2.4F, properties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", FTSConfig.SERVER.thirst_for_blood_damage.get(), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier", FTSConfig.thirst_for_blood_damage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.4F, AttributeModifier.Operation.ADDITION));
         builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.fromString("914C2B49-1AD0-451A-A2F3-2ED609F0F291"), "Tool modifier", 2.0F, AttributeModifier.Operation.ADDITION));
         this.attributeModifierMultimap = builder.build();

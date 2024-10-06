@@ -36,7 +36,7 @@ public class DevilSplitterItem extends SwordItem implements GeoItem {
     public DevilSplitterItem(Item.Properties properties) {
         super(ToolMaterialRegistry.DEVIL_SPLITTER, 1, -2.4F, properties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier",  FTSConfig.SERVER.devil_splitter_damage.get(), AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier",  FTSConfig.devil_splitter_damage, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.8F, AttributeModifier.Operation.ADDITION));
         builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.fromString("D5CD480F-F2CF-4162-955E-B9A2C8EB7425"), "Tool modifier", 3.0F, AttributeModifier.Operation.ADDITION));
         this.attributeModifierMultimap = builder.build();

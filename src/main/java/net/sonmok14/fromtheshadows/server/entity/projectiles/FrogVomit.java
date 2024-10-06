@@ -79,7 +79,7 @@ public class FrogVomit extends Projectile implements GeoEntity {
         Entity entity = this.getOwner();
 
         if (entity instanceof LivingEntity livingentity) {
-            boolean flag = p_37241_.getEntity().hurt(this.damageSources().mobProjectile(this, livingentity), FTSConfig.SERVER.froglin_vomit_damage.get().floatValue());
+            boolean flag = p_37241_.getEntity().hurt(this.damageSources().mobProjectile(this, livingentity), (float) FTSConfig.froglin_vomit_damage);
             if (flag) {
                 livingentity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 90), this);
             }

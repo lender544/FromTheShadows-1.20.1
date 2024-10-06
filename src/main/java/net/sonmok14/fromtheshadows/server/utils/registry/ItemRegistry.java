@@ -6,16 +6,16 @@ import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
+import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.items.*;
 import net.sonmok14.fromtheshadows.server.items.ArmorMaterials;
 
 public class ItemRegistry {
 
-    public static ArmorMaterials CRUST_ARMOR_MATERIAL = new ArmorMaterials("crust", FTSConfig.SERVER.crust_armor_durability.get().intValue(), new int[]{FTSConfig.SERVER.crust_helmet_armor_value.get().intValue(), FTSConfig.SERVER.crust_leggings_armor_value.get().intValue(), FTSConfig.SERVER.crust_chestplate_armor_value.get().intValue(), FTSConfig.SERVER.crust_helmet_armor_value.get().intValue()}, 12, SoundEvents.ARMOR_EQUIP_NETHERITE, 6, 0.4f);
-    public static ArmorMaterials DIABOLIUM_ARMOR_MATERIAL = new ArmorMaterials("diabolium", FTSConfig.SERVER.diabolium_armor_durability.get().intValue(), new int[]{FTSConfig.SERVER.diabolium_helmet_armor_value.get().intValue(), FTSConfig.SERVER.diabolium_leggings_armor_value.get().intValue(), FTSConfig.SERVER.diabolium_chestplate_armor_value.get().intValue(), FTSConfig.SERVER.diabolium_helmet_armor_value.get().intValue()}, 18, SoundEvents.ARMOR_EQUIP_NETHERITE, 3, 0.2f);
-    public static ArmorMaterials PLAGUE_ARMOR_MATERIAL = new ArmorMaterials("plague", FTSConfig.SERVER.plague_mask_durability.get().intValue(), new int[]{2, 0, 0, FTSConfig.SERVER.plague_mask_armor_value.get().intValue()}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0f);
+    public static ArmorMaterials CRUST_ARMOR_MATERIAL = new ArmorMaterials("crust", FTSConfig.crust_armor_durability, new int[]{3, FTSConfig.crust_leggings_armor_value, FTSConfig.crust_chestplate_armor_value, FTSConfig.crust_helmet_armor_value}, 12, SoundEvents.ARMOR_EQUIP_NETHERITE, 6, 0.4f);
+    public static ArmorMaterials DIABOLIUM_ARMOR_MATERIAL = new ArmorMaterials("diabolium", FTSConfig.diabolium_armor_durability, new int[]{FTSConfig.diabolium_helmet_armor_value, FTSConfig.diabolium_leggings_armor_value, FTSConfig.diabolium_chestplate_armor_value, FTSConfig.diabolium_helmet_armor_value}, 18, SoundEvents.ARMOR_EQUIP_NETHERITE, 3, 0.2f);
+    public static ArmorMaterials PLAGUE_ARMOR_MATERIAL = new ArmorMaterials("plague", FTSConfig.plague_mask_durability, new int[]{2, 0, 0, FTSConfig.plague_mask_armor_value}, 15, SoundEvents.ARMOR_EQUIP_LEATHER, 0, 0f);
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Fromtheshadows.MODID);
 

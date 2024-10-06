@@ -11,20 +11,20 @@ import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 public class WorldRegistry {
 
     public static void modifyStructure(Holder<Structure> structure, ModifiableStructureInfo.StructureInfo.Builder builder) {
-        if (structure.is(BuiltinStructures.WOODLAND_MANSION) && FTSConfig.SERVER.clericSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.SERVER.clericSpawnRate.get(), 1, 2));
+        if (structure.is(BuiltinStructures.WOODLAND_MANSION) && FTSConfig.clericSpawnRate > 0) {
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.clericSpawnRate, 1, 2));
         }
-        if (structure.is(BuiltinStructures.PILLAGER_OUTPOST) && FTSConfig.SERVER.clericSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.SERVER.clericSpawnRate.get(), 1, 2));
+        if (structure.is(BuiltinStructures.PILLAGER_OUTPOST) && FTSConfig.clericSpawnRate > 0) {
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.CLERIC.get(), FTSConfig.clericSpawnRate, 1, 2));
         }
-        if (structure.is(BuiltinStructures.OCEAN_RUIN_COLD) && FTSConfig.SERVER.bulldrogiothShipwreckSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.BULLDROGIOTH.get(), FTSConfig.SERVER.bulldrogiothShipwreckSpawnRate.get(), 1, 1));
+        if (structure.is(BuiltinStructures.OCEAN_RUIN_COLD) && FTSConfig.bulldrogiothShipwreckSpawnRate > 0) {
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.BULLDROGIOTH.get(), FTSConfig.bulldrogiothShipwreckSpawnRate, 1, 1));
         }
-        if (structure.is(BuiltinStructures.OCEAN_RUIN_WARM) && FTSConfig.SERVER.bulldrogiothShipwreckSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.BULLDROGIOTH.get(), FTSConfig.SERVER.bulldrogiothShipwreckSpawnRate.get(), 1, 1));
+        if (structure.is(BuiltinStructures.OCEAN_RUIN_WARM) && FTSConfig.bulldrogiothShipwreckSpawnRate > 0) {
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.BULLDROGIOTH.get(), FTSConfig.bulldrogiothShipwreckSpawnRate, 1, 1));
         }
-        if (structure.is(BuiltinStructures.FORTRESS) && FTSConfig.SERVER.nehemothFortressSpawnRate.get() > 0) {
-            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.NEHEMOTH.get(), FTSConfig.SERVER.nehemothFortressSpawnRate.get(), 1, 1));
+        if (structure.is(BuiltinStructures.FORTRESS) && FTSConfig.nehemothFortressSpawnRate > 0) {
+            builder.getStructureSettings().getOrAddSpawnOverrides(MobCategory.MONSTER).addSpawn(new MobSpawnSettings.SpawnerData(EntityRegistry.NEHEMOTH.get(), FTSConfig.nehemothFortressSpawnRate, 1, 1));
         }
     }
 }

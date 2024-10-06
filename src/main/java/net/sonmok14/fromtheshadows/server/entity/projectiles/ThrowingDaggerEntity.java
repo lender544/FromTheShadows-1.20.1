@@ -89,7 +89,7 @@ public class ThrowingDaggerEntity extends AbstractArrow implements GeoEntity {
         Entity entity = this.getOwner();
         Entity entity2 = p_37573_.getEntity();
         if (entity instanceof LivingEntity livingentity) {
-            flag = entity2.hurt(this.damageSources().mobProjectile(this, livingentity), FTSConfig.SERVER.cleric_projectile_damage.get().floatValue() / 2);
+            flag = entity2.hurt(this.damageSources().mobProjectile(this, livingentity), (float) (FTSConfig.cleric_projectile_damage / 2));
             if (flag && entity2 instanceof LivingEntity livingEntity2) {
                 if (entity.isAlive() && entity2 != null) {
                     this.playSound(soundevent, 0.5f, 1.0F);

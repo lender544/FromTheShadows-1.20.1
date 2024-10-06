@@ -18,8 +18,9 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -48,8 +49,8 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.FluidType;
-import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
+import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.DoomBreathEntity;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.ScreenShakeEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
@@ -67,6 +68,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.UUID;
 
 public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
@@ -103,6 +105,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
         xpReward = 30;
+        setConfigattribute(this, FTSConfig.nehemoth_health_multiplier, FTSConfig.nehemoth_melee_damage_multiplier);
     }
     //animation
 
@@ -218,13 +221,28 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 26.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.35D)
-                .add(Attributes.MAX_HEALTH, FTSConfig.SERVER.nehemoth_health.get())
-                .add(Attributes.ATTACK_DAMAGE, FTSConfig.SERVER.nehemoth_melee_damage.get())
+                .add(Attributes.MAX_HEALTH, 100)
+                .add(Attributes.ATTACK_DAMAGE, 7)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 10.0D)
                 .add(Attributes.ARMOR, 10.0D)
                 .add(Attributes.ARMOR_TOUGHNESS, 5.0D)
                 .add(Attributes.ATTACK_SPEED, 2.0D);
+    }
+
+    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+        AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealthAttr != null) {
+            double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
+            maxHealthAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Health config multiplier", difference, AttributeModifier.Operation.ADDITION));
+            entity.setHealth(entity.getMaxHealth());
+        }
+        AttributeInstance attackDamageAttr = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttr != null) {
+            double difference = attackDamageAttr.getBaseValue() * dmgconfig - attackDamageAttr.getBaseValue();
+            attackDamageAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Attack config multiplier", difference, AttributeModifier.Operation.ADDITION));
+
+        }
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -308,16 +326,11 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     }
 
 
-    public int getMaxSpawnClusterSize() {
-        return 1;
-    }
-
-    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return EntityRegistry.rollSpawn(FTSConfig.SERVER.nehemothSpawnRolls.get(), this.getRandom(), spawnReasonIn);
-    }
 
     public static <T extends Mob> boolean canNehemothSpawn(EntityType<NehemothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random) || isNether(iServerWorld, pos) && isBiomeSoulSandValley(iServerWorld, pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+       return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isNether(iServerWorld, pos) && isBiomeSoulSandValley(iServerWorld, pos)) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+
+       // return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
     }
 
 
@@ -537,7 +550,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         if (this.isAlive()) {
             for(LivingEntity livingentity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(3D))) {
                 if(!(livingentity instanceof NehemothEntity)) {
-                    livingentity.hurt(this.damageSources().mobAttack(this), FTSConfig.SERVER.nehemoth_ranged_damage.get().floatValue());
+                    livingentity.hurt(this.damageSources().mobAttack(this), (float) FTSConfig.nehemoth_ranged_damage);
                     this.strongKnockback(livingentity);
                 }
             }

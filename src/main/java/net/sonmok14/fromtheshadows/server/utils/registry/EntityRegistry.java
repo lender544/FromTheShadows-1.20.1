@@ -103,7 +103,7 @@ public class EntityRegistry {
         SpawnPlacements.register(EntityRegistry.FROGLIN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, FroglinEntity::canFroglinSpawn);
 
         event.put(EntityRegistry.BULLDROGIOTH.get(), BulldrogiothEntity.createAttributes().build());
-        SpawnPlacements.register(EntityRegistry.BULLDROGIOTH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BulldrogiothEntity::canBulldrogiothSpawn);
+        SpawnPlacements.register(EntityRegistry.BULLDROGIOTH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkAnyLightMonsterSpawnRules);
 
         event.put(EntityRegistry.CLERIC.get(), ClericEntity.createAttributes().build());
     }

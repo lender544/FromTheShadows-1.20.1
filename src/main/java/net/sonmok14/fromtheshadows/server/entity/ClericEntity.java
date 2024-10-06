@@ -12,6 +12,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -47,6 +49,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 public class ClericEntity extends AbstractIllager implements GeoEntity {
@@ -63,6 +66,7 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
 
     public ClericEntity(EntityType<ClericEntity> p_32105_, Level p_32106_) {
         super(p_32105_, p_32106_);
+        setConfigattribute(this, FTSConfig.cleric_health_multiplier, FTSConfig.cleric_melee_damage_multiplier);
     }
 
 
@@ -72,11 +76,25 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
                 .add(Attributes.ATTACK_KNOCKBACK, 1D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
-                .add(Attributes.MAX_HEALTH, FTSConfig.SERVER.cleric_health.get())
-                .add(Attributes.ATTACK_DAMAGE, FTSConfig.SERVER.cleric_melee_damage.get())
+                .add(Attributes.MAX_HEALTH, 30)
+                .add(Attributes.ATTACK_DAMAGE, 1)
                 .add(Attributes.ARMOR, 2.0D);
     }
 
+    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+        AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealthAttr != null) {
+            double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
+            maxHealthAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Health config multiplier", difference, AttributeModifier.Operation.ADDITION));
+            entity.setHealth(entity.getMaxHealth());
+        }
+        AttributeInstance attackDamageAttr = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttr != null) {
+            double difference = attackDamageAttr.getBaseValue() * dmgconfig - attackDamageAttr.getBaseValue();
+            attackDamageAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Attack config multiplier", difference, AttributeModifier.Operation.ADDITION));
+
+        }
+    }
 
     protected void customServerAiStep() {
         if (!this.isNoAi() && GoalUtils.hasGroundPathNavigation(this)) {
@@ -204,7 +222,7 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return EntityRegistry.rollSpawn(FTSConfig.SERVER.clericSpawnRolls.get(), this.getRandom(), spawnReasonIn);
+        return EntityRegistry.rollSpawn(FTSConfig.bulldrogiothSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable

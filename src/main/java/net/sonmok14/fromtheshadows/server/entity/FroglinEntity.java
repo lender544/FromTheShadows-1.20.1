@@ -16,6 +16,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -57,6 +59,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.UUID;
 
 public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAquatic {
     boolean searchingForLand;
@@ -83,6 +86,7 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
         switchNavigator(false);
         this.moveControl = new FroglinMoveControl(this);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+        setConfigattribute(this, FTSConfig.froglin_health_multiplier, FTSConfig.froglin_melee_damage_multiplier);
     }
     @Override
     protected int calculateFallDamage(float p_21237_, float p_21238_) {
@@ -98,10 +102,26 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
                 .add(Attributes.ATTACK_KNOCKBACK, 0.0D)
                 .add(Attributes.FOLLOW_RANGE, 16.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
-                .add(Attributes.MAX_HEALTH, FTSConfig.SERVER.froglin_health.get())
-                .add(Attributes.ATTACK_DAMAGE, FTSConfig.SERVER.froglin_melee_damage.get())
+                .add(Attributes.MAX_HEALTH, 25)
+                .add(Attributes.ATTACK_DAMAGE, 5)
                 .add(Attributes.ARMOR, 2.0D);
     }
+
+    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+        AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealthAttr != null) {
+            double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
+            maxHealthAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Health config multiplier", difference, AttributeModifier.Operation.ADDITION));
+            entity.setHealth(entity.getMaxHealth());
+        }
+        AttributeInstance attackDamageAttr = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttr != null) {
+            double difference = attackDamageAttr.getBaseValue() * dmgconfig - attackDamageAttr.getBaseValue();
+            attackDamageAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Attack config multiplier", difference, AttributeModifier.Operation.ADDITION));
+
+        }
+    }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
         controllerRegistrar.add(
@@ -199,14 +219,14 @@ public class FroglinEntity extends Monster implements Enemy, GeoEntity, ISemiAqu
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return EntityRegistry.rollSpawn(FTSConfig.SERVER.froglinSpawnRolls.get(), this.getRandom(), spawnReasonIn);
+        return EntityRegistry.rollSpawn(FTSConfig.froglinSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     public static boolean checkMonsterSpawnRules(EntityType<? extends Monster> p_33018_, ServerLevelAccessor p_33019_, MobSpawnType p_33020_, BlockPos p_33021_, RandomSource p_33022_) {
         return p_33019_.getDifficulty() != Difficulty.PEACEFUL && checkMobSpawnRules(p_33018_, p_33019_, p_33020_, p_33021_, p_33022_);
     }
     public static <T extends Mob> boolean canFroglinSpawn(EntityType<FroglinEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isBiomeSwamp(iServerWorld, pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random));
+        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isBiomeSwamp(iServerWorld, pos)) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
     }
     @Override
     public boolean canRiderInteract() {

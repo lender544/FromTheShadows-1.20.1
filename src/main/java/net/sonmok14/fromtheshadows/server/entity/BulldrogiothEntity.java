@@ -16,6 +16,8 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -48,6 +50,7 @@ import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.entity.ai.*;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.CoralThornEntity;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.ScreenShakeEntity;
+import net.sonmok14.fromtheshadows.server.utils.registry.EntityRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.SoundRegistry;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -60,6 +63,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.EnumSet;
 import java.util.List;
+import java.util.UUID;
 
 public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISemiAquatic {
 
@@ -94,6 +98,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.LEAVES, 0.0F);
         this.xpReward = 30;
+        setConfigattribute(this, FTSConfig.bulldrogioth_health_multiplier, FTSConfig.bulldrogioth_melee_damage_multiplier);
     }
     public void setAttackID(int id) {
         this.attackID = id;
@@ -327,6 +332,20 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                 }));
     }
 
+    public static void setConfigattribute(LivingEntity entity, double hpconfig, double dmgconfig) {
+        AttributeInstance maxHealthAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHealthAttr != null) {
+            double difference = maxHealthAttr.getBaseValue() * hpconfig - maxHealthAttr.getBaseValue();
+            maxHealthAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Health config multiplier", difference, AttributeModifier.Operation.ADDITION));
+            entity.setHealth(entity.getMaxHealth());
+        }
+        AttributeInstance attackDamageAttr = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+        if (attackDamageAttr != null) {
+            double difference = attackDamageAttr.getBaseValue() * dmgconfig - attackDamageAttr.getBaseValue();
+            attackDamageAttr.addTransientModifier(new AttributeModifier(UUID.fromString("6d57ab59-6f61-4bb9-9fee-6a0c75aea861"), "Attack config multiplier", difference, AttributeModifier.Operation.ADDITION));
+
+        }
+    }
 
 
     @Nullable
@@ -335,8 +354,8 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                 .add(Attributes.ATTACK_KNOCKBACK, 2.0D)
                 .add(Attributes.FOLLOW_RANGE, 32.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.3D)
-                .add(Attributes.MAX_HEALTH, FTSConfig.SERVER.bulldrogioth_health.get())
-                .add(Attributes.ATTACK_DAMAGE, FTSConfig.SERVER.bulldrogioth_melee_damage.get())
+                .add(Attributes.MAX_HEALTH, 100)
+                .add(Attributes.ATTACK_DAMAGE, 15)
                 .add(Attributes.ARMOR, 15.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 10.0D)
                 .add(Attributes.ARMOR_TOUGHNESS, 10.0D);
@@ -571,7 +590,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
 
     public static <T extends Mob> boolean canBulldrogiothSpawn(EntityType<BulldrogiothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
 
-        return reason == MobSpawnType.SPAWNER || iServerWorld.canSeeSky(pos) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+        return reason == MobSpawnType.SPAWNER ||  checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
     }
 
     @Override

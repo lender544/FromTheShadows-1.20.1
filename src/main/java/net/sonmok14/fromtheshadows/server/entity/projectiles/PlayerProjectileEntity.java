@@ -150,7 +150,7 @@ public class PlayerProjectileEntity extends Entity {
                 for (LivingEntity target : hit) {
                     if (target != this.caster) {
 
-                        boolean flag = target.hurt(DamageRegistry.causeIncinerateDamage(caster), FTSConfig.SERVER.thirst_for_blood_laser_damage.get().floatValue());
+                        boolean flag = target.hurt(DamageRegistry.causeIncinerateDamage(caster), (float) FTSConfig.thirst_for_blood_laser_damage);
                             if (flag) {
                                 target.setSecondsOnFire(5);
                             }
