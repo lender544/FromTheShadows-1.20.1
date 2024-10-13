@@ -134,6 +134,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
     public void setRight(boolean p_32759_) {
         this.entityData.set(IS_RIGHT, p_32759_);
     }
+
     private static boolean isBiomeSwamp(LevelAccessor worldIn, BlockPos position) {
         return worldIn.getBiome(position).is(Biomes.SWAMP) || worldIn.getBiome(position).is(Biomes.MANGROVE_SWAMP);
     }
@@ -385,6 +386,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         return super.hurt(p_21016_, p_21017_);
     }
+
 
     private void meleeattack() {
         float range = 3f;
@@ -811,7 +813,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         
         @Override
         public boolean canContinueToUse() {
-            return attacktick < 45;
+            return attacktick < 55;
         }
 
         @Override
@@ -882,7 +884,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         @Override
         public boolean canContinueToUse() {
-            return attacktick < 36;
+            return attacktick < 46;
         }
         @Override
         public void tick() {
@@ -936,24 +938,24 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         @Override
         public boolean canContinueToUse() {
-            return attacktick < 65;
+            return attacktick < 95;
         }
         @Override
         public void tick() {
-            if (attacktick == 20) {
+            if (attacktick == 30) {
                 float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                 float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                 push(f1 * 1, 0.0, f2 * 1);
             }
-            if (attacktick == 23) {
+            if (attacktick == 33) {
                 coralThornFive();
             }
-            if (attacktick == 39) {
+            if (attacktick == 49) {
                 float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                 float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                 push(f1 * 1, 0.0, f2 * 1);
             }
-            if (attacktick == 42) {
+            if (attacktick == 52) {
                 coralThornFive();
             }
         }
@@ -986,16 +988,16 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         @Override
         public boolean canContinueToUse() {
-            return attacktick < 45;
+            return attacktick < 60;
         }
         @Override
         public void tick() {
-            if (attacktick == 20) {
+            if (attacktick == 25) {
                 float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                 float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                 push(f1 * 1, 0.0, f2 * 1);
             }
-            if (attacktick == 23) {
+            if (attacktick == 28) {
                 coralThorn();
                 }
         }
@@ -1026,7 +1028,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         @Override
         public boolean canContinueToUse() {
-            return attacktick < 60;
+            return attacktick < 70;
         }
         @Override
         public void tick() {
@@ -1083,21 +1085,25 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         @Override
         public boolean canContinueToUse() {
-            return attacktick < 36;
+            return attacktick < 56;
         }
         @Override
         public void tick() {
-                if (attacktick == 20) {
+                if (attacktick == 30) {
+                    if (attackTarget != null) {
+                        getLookControl().tick();
+                        getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
+                    }
                     float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                     push(f1 * 1.5, 0.0, f2 * 1.5);
                 }
-                if (attacktick == 23) {
+                if (attacktick == 33) {
                     meleeattack();
                     breakBlock();
                 }
             double dist = distanceTo(attackTarget);
-            if (attacktick == 23 && dist <= 4 && attackTarget != null) {
+            if (attacktick == 33 && dist <= 4 && attackTarget != null) {
                 attackTarget.hurt(damageSources().mobAttack(BulldrogiothEntity.this), (float) getAttributeValue(Attributes.ATTACK_DAMAGE) / 3);
             }
         }

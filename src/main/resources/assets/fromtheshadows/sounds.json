@@ -43,12 +43,38 @@
   ],
     "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.goresound"
   },
+  "bite_warn": {
+    "sounds": [{"name": "fromtheshadows:bite_warn", "stream": true}
+    ],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.bite_warn"
+  },
   "nehemoth_hurt": {
     "sounds": [{"name": "fromtheshadows:nehemoth_hurt3", "stream": true}
     ,{"name": "fromtheshadows:nehemoth_hurt4", "stream": true}
     ,{"name": "fromtheshadows:nehemoth_hurt5", "stream": true}
     ,{"name": "fromtheshadows:nehemoth_hurt6", "stream": true}],
     "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_hurt"
+  },
+  "nehemoth_charge": {
+    "sounds": [{"name": "fromtheshadows:nehemoth_charge_1", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_charge_2", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_charge_3", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_charge_4", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_charge"
+  },
+  "nehemoth_celebrate": {
+    "sounds": [{"name": "fromtheshadows:nehemoth_celebrate_1", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_celebrate_2", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_celebrate"
+  },
+  "nehemoth_bite": {
+    "sounds": [{"name": "fromtheshadows:nehemoth_bite_1", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_bite_2", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_bite_3", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_bite_4", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_bite_5", "stream": true}
+    ,{"name": "fromtheshadows:nehemoth_bite_6", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_bite"
   },
   "nehemoth_death": {
     "sounds": [{"name": "fromtheshadows:nehemoth_death", "stream": true}

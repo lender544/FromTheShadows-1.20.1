@@ -19,6 +19,7 @@ plugins {
 }
 
 repositories{
+
     maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
@@ -93,6 +94,20 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    ivy {
+        name "Github Releases - DT Versioning" // Github Releases
+        url "https://github.com"
+
+        patternLayout {
+            artifact "[organisation]/[module]/releases/download/MC[revision]/[module]-[revision].[ext]"
+        }
+
+        metadataSources { artifact() }
+    }
+    maven {
+        name = 'Su5eD'
+        url = 'https://maven.su5ed.dev/releases/'
+    }
     maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
@@ -119,6 +134,8 @@ repositories {
 }
 
 dependencies {
+    //implementation("org.sinytra.mixinbooster:mixin-booster:${mixinbooster_version}+${minecraft_version}")
+    //implementation fg.deobf("dertoaster98:multihitboxlib:${minecraft_version}-${multihitboxlib_version}@jar")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${geckolib_version}")
     minecraft "net.neoforged:forge:${minecraft_version}-${forge_version}"
 }

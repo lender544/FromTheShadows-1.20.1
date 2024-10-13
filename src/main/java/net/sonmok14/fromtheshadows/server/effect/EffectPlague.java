@@ -4,6 +4,8 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.raid.Raider;
+import net.sonmok14.fromtheshadows.server.entity.NehemothEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
 
 public class EffectPlague extends MobEffect {
@@ -14,11 +16,11 @@ public class EffectPlague extends MobEffect {
 
     @Override
     public void applyEffectTick(LivingEntity p_19467_, int p_19468_) {
-        if(p_19467_.getHealth() > 1) {
+        if(p_19467_.getHealth() > 1 && !(p_19467_ instanceof Raider)) {
            p_19467_.hurt(p_19467_.damageSources().magic(), 1);
         }
         for (LivingEntity livingentity : p_19467_.level().getEntitiesOfClass(LivingEntity.class, p_19467_.getBoundingBox().inflate(2D))) {
-            if (livingentity != p_19467_) {
+            if (livingentity != p_19467_ && !(livingentity instanceof Raider)) {
                 if(!livingentity.hasEffect(EffectRegistry.PLAGUE.get()))
                 livingentity.addEffect(new MobEffectInstance(EffectRegistry.PLAGUE.get(), 200), p_19467_);
             }

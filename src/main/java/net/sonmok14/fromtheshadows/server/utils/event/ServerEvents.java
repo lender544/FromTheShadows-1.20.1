@@ -16,6 +16,7 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.EnchantmentRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.ItemRegistry;
 
@@ -46,6 +47,10 @@ public class ServerEvents {
                         .containsAll(Arrays.asList(ItemRegistry.PLAGUE_DOCTOR_MASK.get()));
                 if (isWearingAll) {
                     if (!attacker.level().isClientSide) {
+                        if(attacker.hasEffect(EffectRegistry.PLAGUE.get()))
+                        {
+                            attacker.removeEffect(EffectRegistry.PLAGUE.get());
+                        }
                         Iterator<MobEffectInstance> itr = attacker.getActiveEffects().iterator();
                         ArrayList<MobEffect> compatibleEffects = new ArrayList<>();
 

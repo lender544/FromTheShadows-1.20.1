@@ -18,6 +18,9 @@ public class SoundRegistry{
     public static final RegistryObject<SoundEvent> BULLDROGIOTH_ATTACK = createSoundEvent("bulldrogioth_attack");
     public static final RegistryObject<SoundEvent> SOUL_LASER = createSoundEvent("soul_laser");
     public static final RegistryObject<SoundEvent> SOUL_LASER_READY = createSoundEvent("soul_laser_ready");
+    public static final RegistryObject<SoundEvent> NEHEMOTH_CHARGE = createSoundEvent("nehemoth_charge");
+    public static final RegistryObject<SoundEvent> BITE_WARN = createSoundEvent("bite_warn");
+    public static final RegistryObject<SoundEvent> NEHEMOTH_BITE = createSoundEvent("nehemoth_bite");
     public static final RegistryObject<SoundEvent> NEHEMOTH_IDLE = createSoundEvent("nehemoth_idle");
     public static final RegistryObject<SoundEvent> NEHEMOTH_DEATH = createSoundEvent("nehemoth_death");
     public static final RegistryObject<SoundEvent> NEHEMOTH_HURT = createSoundEvent("nehemoth_hurt");

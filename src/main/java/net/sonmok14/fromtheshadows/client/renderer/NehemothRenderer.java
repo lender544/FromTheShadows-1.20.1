@@ -23,10 +23,6 @@ public class NehemothRenderer extends GeoEntityRenderer<NehemothEntity> {
 
         shadowRadius = 1.5f;
     }
-    @Override
-    protected float getDeathMaxRotation(NehemothEntity entityLivingBaseIn) {
-        return 90;
-    }
 
  @Override
    public void postRender(PoseStack poseStack, NehemothEntity animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
@@ -34,7 +30,7 @@ public class NehemothRenderer extends GeoEntityRenderer<NehemothEntity> {
       if(!animatable.isStone())
      {
          if (model.getBone("rotate").isPresent()) {
-             if (animatable.attackID == 3 && animatable.attacktick == 17) {
+             if (animatable.attackID == 3 && animatable.attacktick == 27) {
 
                  for(int i = 0; i < 4; ++i) {
                      animatable.getCommandSenderWorld().addParticle(ParticleRegistry.BLOOD.get(), model.getBone("rotate").get().getWorldPosition().x,

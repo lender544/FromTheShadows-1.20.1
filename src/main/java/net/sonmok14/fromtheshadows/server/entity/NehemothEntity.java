@@ -18,6 +18,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -49,8 +50,8 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fluids.FluidType;
-import net.sonmok14.fromtheshadows.server.Fromtheshadows;
 import net.sonmok14.fromtheshadows.server.config.FTSConfig;
+import net.sonmok14.fromtheshadows.server.Fromtheshadows;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.DoomBreathEntity;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.ScreenShakeEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
@@ -84,9 +85,9 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     public int smashCooldown;
     public int breathCooldown;
     public int roarCooldown;
-
     public float growlProgress;
     public static final byte MELEE_ATTACK = 1;
+    public static final byte MELEE_ATTACK_ONCE = 2;
     public static final byte BITE_ATTACK = 3;
     public static final byte ROAR_ATTACK = 4;
     public static final byte SMASH_ATTACK = 5;
@@ -105,7 +106,6 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
         xpReward = 30;
-        setConfigattribute(this, FTSConfig.nehemoth_health_multiplier, FTSConfig.nehemoth_melee_damage_multiplier);
     }
     //animation
 
@@ -163,6 +163,12 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
             if (attackID == 1 && isRight()) {
                 return event.setAndContinue(RawAnimation.begin().thenPlayAndHold("animation.nehemoth.right_melee"));
             }
+            if (attackID == 2 && !isRight()) {
+                return event.setAndContinue(RawAnimation.begin().thenPlayAndHold("animation.nehemoth.left_melee_once"));
+            }
+            if (attackID == 2 && isRight()) {
+                return event.setAndContinue(RawAnimation.begin().thenPlayAndHold("animation.nehemoth.right_melee_once"));
+            }
         }
             return PlayState.STOP;
     }));
@@ -217,6 +223,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                 }));
     }
 
+
     public static AttributeSupplier.Builder createAttributes() {
         return LivingEntity.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 26.0D)
@@ -244,6 +251,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
         }
     }
+
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
@@ -326,11 +334,15 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     }
 
 
+    public int getMaxSpawnClusterSize() {
+        return 1;
+    }
+
 
     public static <T extends Mob> boolean canNehemothSpawn(EntityType<NehemothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-       return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isNether(iServerWorld, pos) && isBiomeSoulSandValley(iServerWorld, pos)) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+        return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && (pos.getY() <= 0 || isNether(iServerWorld, pos) && isBiomeSoulSandValley(iServerWorld, pos)) && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
 
-       // return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
+        // return reason == MobSpawnType.SPAWNER || !iServerWorld.canSeeSky(pos) && pos.getY() <= 0 && checkMonsterSpawnRules(entityType, iServerWorld, reason, pos, random);
     }
 
 
@@ -371,6 +383,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.35, true));
+        this.goalSelector.addGoal(0, new MeleeAttackOnceGoal(this));
         this.goalSelector.addGoal(0, new DoubleMeleeAttackGoal(this));
         this.goalSelector.addGoal(0, new BiteAttackGoal(this));
         this.goalSelector.addGoal(0, new FloatGoal(this));
@@ -418,10 +431,13 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
     //tick
     @Override
-    public boolean doHurtTarget(Entity p_85031_1_) {
-        setYRot(yBodyRot);
-        if (!this.level().isClientSide) {
+    public boolean doHurtTarget(Entity target) {
+        if (!this.level().isClientSide && this.attackID == 0) {
+            if (this.random.nextInt(2) != 0) {
                 this.attackID = MELEE_ATTACK;
+            }
+            else
+                this.attackID = MELEE_ATTACK_ONCE;
         }
         return true;
     }
@@ -440,6 +456,9 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         }
         if (this.attackCooldown > 0) {
             --this.attackCooldown;
+        }
+        if (!this.getPassengers().isEmpty() && this.getPassengers().get(0).isShiftKeyDown() && attackID == BITE_ATTACK) {
+            this.getPassengers().get(0).setShiftKeyDown(false);
         }
         if(attackID == 0)
         {
@@ -528,6 +547,10 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
             breathCooldown = 0;
             biteCooldown = 0;
           roarCooldown = 0;
+          if(this.getTarget() == null)
+          {
+
+          }
         }
         return super.killedEntity(p_216988_, p_216989_);
     }
@@ -627,7 +650,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     }
     private void meleeattack() {
         float range = 3.5f;
-        float arc = 80;
+        float arc = 90;
         List<LivingEntity> entitiesHit = this.getEntityLivingBaseNearby(range, 3.5, range, range);
         for (LivingEntity entityHit : entitiesHit) {
             float entityHitAngle = (float) ((Math.atan2(entityHit.getZ() - this.getZ(), entityHit.getX() - this.getX()) * (180 / Math.PI) - 90) % 360);
@@ -646,7 +669,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                     if(!entityHit.isBlocking()) {
                         entityHit.invulnerableTime = 0;
                         if (flag) {
-                            entityHit.addEffect(new MobEffectInstance(EffectRegistry.BLEEDING.get(), 100), this);
+                            entityHit.addEffect(new MobEffectInstance(EffectRegistry.BLEEDING.get(), 60), this);
                             entityHit.playSound(SoundRegistry.NEHEMOTH_GORE_SOUND.get(), 1f, 1F + this.getRandom().nextFloat() * 0.1F);
                         }
                     }
@@ -661,7 +684,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
             int tick = 5;
             if (attackID == BITE_ATTACK) {
                 tick = this.attacktick;
-                if (this.attacktick == 22) {
+                if (this.attacktick == 32) {
                     passenger.stopRiding();
                 }
                 this.setYRot(this.yRotO);
@@ -736,6 +759,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         return this.isStone() ? STONE_LOOT : super.getDefaultLootTable();
     }
 
+
     @Override
     public boolean hurt(DamageSource p_21016_, float p_21017_) {
         Entity entity = p_21016_.getEntity();
@@ -795,6 +819,64 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
     public LivingEntity getControllingPassenger() {
         return null;
     }
+
+    class MeleeAttackOnceGoal extends Goal {
+        private final NehemothEntity nehemoth;
+        private LivingEntity attackTarget;
+
+        public MeleeAttackOnceGoal(NehemothEntity p_i45837_1_) {
+            this.setFlags(EnumSet.of(Flag.JUMP, Flag.LOOK, Flag.MOVE));
+            this.nehemoth = p_i45837_1_;
+        }
+
+        public boolean canUse() {
+            this.attackTarget = this.nehemoth.getTarget();
+            return attackTarget != null && this.nehemoth.attackID == 2;
+        }
+
+        public void start() {
+            setRight(random.nextInt(2) != 0);
+            this.nehemoth.setAttackID(2);
+        }
+
+        public void stop() {
+            this.nehemoth.setAttackID(0);
+            this.attackTarget = null;
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+
+        @Override
+        public boolean canContinueToUse() {
+            return nehemoth.attacktick < 47;
+        }
+
+
+        public void tick() {
+            if (attacktick == 16) {
+                if (attackTarget != null) {
+                    nehemoth.getLookControl().tick();
+                    nehemoth.getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
+                }
+            }
+            if (attacktick == 17) {
+                float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
+                float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
+                push(f1 * 0.3, 0, f2 * 0.3);
+            }
+            if (attacktick == 19) {
+                meleeattack();
+                playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 3f, 0.5F + getRandom().nextFloat() * 0.1F);
+
+            }
+            getNavigation().recomputePath();
+        }
+    }
+
     class DoubleMeleeAttackGoal extends Goal {
         private final NehemothEntity nehemoth;
         private LivingEntity attackTarget;
@@ -827,40 +909,40 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
         @Override
         public boolean canContinueToUse() {
-            return nehemoth.attacktick < 50;
+            return nehemoth.attacktick < 72;
         }
 
 
         public void tick() {
-            if (attacktick == 6) {
+            if (attacktick == 16) {
                 if (attackTarget != null) {
                     nehemoth.getLookControl().tick();
                     nehemoth.getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
                 }
             }
-                if (attacktick == 7) {
+                if (attacktick == 17) {
                     float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                     push(f1 * 0.3, 0, f2 * 0.3);
                 }
-            if (attacktick == 24) {
+            if (attacktick == 34) {
                 if (attackTarget != null) {
                     nehemoth.getLookControl().tick();
                     nehemoth.getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
                 }
             }
-                if (attacktick == 25) {
+                if (attacktick == 35) {
                     float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                     push(f1 * 0.3, 0, f2 * 0.3);
                 }
-                if (attacktick == 9) {
+                if (attacktick == 19) {
                     meleeattack();
                     playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 3f, 0.5F + getRandom().nextFloat() * 0.1F);
 
                 }
 
-                if (attacktick == 31) {
+                if (attacktick == 41) {
                     meleeattack();
                     playSound(SoundEvents.PLAYER_ATTACK_SWEEP, 3f, 0.5F + getRandom().nextFloat() * 0.1F);
                 }
@@ -898,47 +980,51 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
             @Override
         public boolean canContinueToUse() {
-            return nehemoth.attacktick < 23 && nehemoth.attackID != 0;
+            return nehemoth.attacktick < 48 && nehemoth.attackID != 0;
         }
 
             @Override
         public void tick() {
-            if(nehemoth.attacktick > 6 && attackTarget != null && !this.nehemoth.hasPassenger(attackTarget))
-            {
-                stop();
-            }
-            if(attackTarget != null)
-                    if (attacktick == 2) {
+                if (nehemoth.attacktick > 20 && attackTarget != null && !this.nehemoth.hasPassenger(attackTarget)) {
+                    stop();
+                }
+                if (attackTarget != null)
+                    if (attacktick == 1) {
+                        playSound(SoundRegistry.BITE_WARN.get(), 2f, 0.6F + getRandom().nextFloat() * 0.1F);
+                    }
+                    if (attacktick == 12) {
                         float f1 = (float) Math.cos(Math.toRadians(nehemoth.getYRot() + 90));
                         float f2 = (float) Math.sin(Math.toRadians(nehemoth.getYRot() + 90));
 
                         nehemoth.push(f1 * 0.2, 0, f2 * 1);
                     }
-                    if (nehemoth.attacktick == 6) {
-                        if (nehemoth.distanceTo(attackTarget) < 4F && nehemoth.hasLineOfSight(attackTarget) && attackTarget != null) {
-                            boolean flag = attackTarget.isBlocking();
-                            if (!flag) {
-                                if (attackTarget.getBbWidth() < nehemoth.getBbWidth() && nehemoth.getPassengers().isEmpty() && !attackTarget.isShiftKeyDown()) {
-                                    attackTarget.startRiding(nehemoth);
-                                }
+                if (nehemoth.attacktick == 16) {
+                    if (nehemoth.distanceTo(attackTarget) < 3.5F && nehemoth.hasLineOfSight(attackTarget) && attackTarget != null) {
+                        boolean flag = attackTarget.isBlocking();
+                        if (!flag) {
+                            if (attackTarget.getBbWidth() < nehemoth.getBbWidth() && nehemoth.getPassengers().isEmpty() && !attackTarget.isShiftKeyDown()) {
+                                attackTarget.startRiding(nehemoth);
                             }
                         }
                     }
-                    if(nehemoth.attacktick > 6)
-                    {
-                        double d0 = nehemoth.getX() - attackTarget.getX();
-                        double d2 = nehemoth.getZ() - attackTarget.getZ();
-                        double d1 = nehemoth.getY() - 1 - attackTarget.getY();
-                        double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-                        float f = (float) (Mth.atan2(d2, d0) * (180D / Math.PI)) - 90.0F;
-                        float f1 = (float) (-(Mth.atan2(d1, d3) * (180D / Math.PI)));
-                        attackTarget.setXRot(updateRotation(attackTarget.getXRot(), f1, 30F));
-                        attackTarget.setYRot(updateRotation(attackTarget.getYRot(), f, 30F));
-                    }
-                    if (nehemoth.attacktick == 17 && nehemoth.hasPassenger(attackTarget)) {
+                }
+                if (nehemoth.attacktick > 16) {
+                    double d0 = nehemoth.getX() - attackTarget.getX();
+                    double d2 = nehemoth.getZ() - attackTarget.getZ();
+                    double d1 = nehemoth.getY() - 1 - attackTarget.getY();
+                    double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+                    float f = (float) (Mth.atan2(d2, d0) * (180D / Math.PI)) - 90.0F;
+                    float f1 = (float) (-(Mth.atan2(d1, d3) * (180D / Math.PI)));
+                    attackTarget.setXRot(updateRotation(attackTarget.getXRot(), f1, 30F));
+                    attackTarget.setYRot(updateRotation(attackTarget.getYRot(), f, 30F));
+                }
+                if (nehemoth.attacktick == 24 && nehemoth.hasPassenger(attackTarget)) {
+                    nehemoth.level().playSound(null, nehemoth.getX(), nehemoth.getY(), nehemoth.getZ(), SoundRegistry.NEHEMOTH_BITE.get(), nehemoth.getSoundSource(), 2F, 0.8F + (nehemoth.random.nextFloat() - nehemoth.random.nextFloat()) * 0.2F);
+            }
+                    if (nehemoth.attacktick == 27 && nehemoth.hasPassenger(attackTarget)) {
                         attackTarget.hurt(nehemoth.damageSources().mobAttack(nehemoth), (float) nehemoth.getAttributeValue(Attributes.ATTACK_DAMAGE));
                         if (!attackTarget.isBlocking()) {
-                            nehemoth.level().playSound(null, nehemoth.getX(), nehemoth.getY(), nehemoth.getZ(), SoundEvents.STRIDER_EAT, nehemoth.getSoundSource(), 3F, 0.3F + (nehemoth.random.nextFloat() - nehemoth.random.nextFloat()) * 0.2F);
+
                             attackTarget.addEffect(new MobEffectInstance(EffectRegistry.HEAL_BLOCK.get(), 100), nehemoth);
                             heal((float) nehemoth.getAttributeValue(Attributes.ATTACK_DAMAGE)/2);
 
@@ -949,7 +1035,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                             stop();
                         }
                     }
-                    if (nehemoth.attacktick == 22 && hasPassenger(attackTarget)) {
+                    if (nehemoth.attacktick == 32 && hasPassenger(attackTarget)) {
                         ejectPassengers();
                     }
 
@@ -1004,6 +1090,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                 push(f1 * 0.4, 0, f2 * 0.4);
             }
             if (attacktick == 9) {
+                playSound(SoundRegistry.NEHEMOTH_CHARGE.get(), 2f, 0.7F + getRandom().nextFloat() * 0.1F);
                 setDeltaMovement((attackTarget.getX() - getX()) * 0.21D, 0.9D, (attackTarget.getZ() - getZ()) * 0.21D);
             }
             if (attacktick > 10 && onGround()) {
@@ -1070,7 +1157,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
                     float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
                     float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
                     push(f1 * 0.3, 0, f2 * 0.3);
-                    nehemoth.level().playSound(null, nehemoth.getX(), nehemoth.getY(), nehemoth.getZ(), SoundRegistry.NEHEMOTH_ROAR.get(),SoundSource.HOSTILE, 1.5f, 0.7F + getRandom().nextFloat() * 0.1F);
+                    playSound(SoundRegistry.NEHEMOTH_ROAR.get(), 1f, 0.65F + getRandom().nextFloat() * 0.1F);
                     ScreenShakeEntity.ScreenShake(level(), position(), 50, 0.1f, 30, 30);
                 }
 
@@ -1089,7 +1176,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
         public boolean canUse() {
             this.attackTarget = this.nehemoth.getTarget();
-            return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3.0D && random.nextInt(8) == 0 && (attackTarget.swinging);
+            return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3.0D && random.nextInt(6) == 0 && (attackTarget.swinging);
         }
 
         public void start() {
