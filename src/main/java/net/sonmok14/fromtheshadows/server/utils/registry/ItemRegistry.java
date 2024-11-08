@@ -54,6 +54,8 @@ public class ItemRegistry {
 
     public static final RegistryObject<Item> FROGLIN_LEG = ITEMS.register("froglin_leg",
             () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> CORRUPTED_HEART = ITEMS.register("corrupted_heart",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
 
     public static final RegistryObject<Item> DIABOLIUM_BLOCK = ITEMS.register("diabolium_block", () -> new BlockItem(BlockRegistry.DIABOLIUM_BLOCK.get(), new Item.Properties().fireResistant()));
     public static final RegistryObject<Item> CLERIC_SPAWN_EGG = ITEMS.register("cleric_spawn_egg",

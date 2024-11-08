@@ -39,5 +39,6 @@ public static final RegistryObject<CreativeModeTab> ITEM = TABS.register("items"
         entries.accept(ItemRegistry.BOTTLE_OF_BLOOD.get());
     entries.accept(ItemRegistry.CRYSTALLIZED_BLOOD.get());
     entries.accept(ItemRegistry.FROGLIN_LEG.get());
+    entries.accept(ItemRegistry.CORRUPTED_HEART.get());
     }).build());
 }

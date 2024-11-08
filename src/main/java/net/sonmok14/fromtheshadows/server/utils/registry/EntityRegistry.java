@@ -14,7 +14,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
-import net.sonmok14.fromtheshadows.server.entity.*;
+import net.sonmok14.fromtheshadows.server.entity.mob.BulldrogiothEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.ClericEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.FroglinEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.NehemothEntity;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.*;
 
 import java.util.function.Predicate;

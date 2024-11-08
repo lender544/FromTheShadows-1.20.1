@@ -10,10 +10,10 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
-import net.sonmok14.fromtheshadows.server.entity.BulldrogiothEntity;
-import net.sonmok14.fromtheshadows.server.entity.ClericEntity;
-import net.sonmok14.fromtheshadows.server.entity.FroglinEntity;
-import net.sonmok14.fromtheshadows.server.entity.NehemothEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.BulldrogiothEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.ClericEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.FroglinEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.NehemothEntity;
 
 @Mod.EventBusSubscriber(modid = Fromtheshadows.MODID)
 public class EntityEvent {

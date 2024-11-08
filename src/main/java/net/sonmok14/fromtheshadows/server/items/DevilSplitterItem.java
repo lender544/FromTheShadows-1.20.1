@@ -19,6 +19,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.sonmok14.fromtheshadows.client.renderer.items.DevilSplitterRenderer;
 import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.entity.FTSMobType;
+import net.sonmok14.fromtheshadows.server.entity.mob.NehemothEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.ItemRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.ToolMaterialRegistry;
 import software.bernie.geckolib.animatable.GeoItem;
@@ -37,7 +38,7 @@ public class DevilSplitterItem extends SwordItem implements GeoItem {
         super(ToolMaterialRegistry.DEVIL_SPLITTER, 1, -2.4F, properties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Tool modifier",  FTSConfig.devil_splitter_damage, AttributeModifier.Operation.ADDITION));
-        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.8F, AttributeModifier.Operation.ADDITION));
+        builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Tool modifier", -2.4F, AttributeModifier.Operation.ADDITION));
         builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.fromString("D5CD480F-F2CF-4162-955E-B9A2C8EB7425"), "Tool modifier", 1F, AttributeModifier.Operation.ADDITION));
         this.attributeModifierMultimap = builder.build();
     }
@@ -65,14 +66,12 @@ public class DevilSplitterItem extends SwordItem implements GeoItem {
 
     @Override
     public boolean hurtEnemy(ItemStack p_43278_, LivingEntity target, LivingEntity attacker) {
-        if (target.getMobType() == FTSMobType.DEMON) {
+        if (target.getMobType() == FTSMobType.DEMON || target instanceof NehemothEntity) {
             if (!target.isAlive()) {
-                p_43278_.hurtAndBreak(-5, attacker, p -> p.broadcastBreakEvent(attacker.getUsedItemHand()));
+                p_43278_.hurtAndBreak(-20, attacker, p -> p.broadcastBreakEvent(attacker.getUsedItemHand()));
             }
-            if (attacker.isSprinting()) {
                 target.hurt(attacker.damageSources().mobAttack(attacker), (float) attacker.getAttributeValue(Attributes.ATTACK_DAMAGE) * 1.25f);
-                attacker.heal((float) attacker.getAttributeValue(Attributes.ATTACK_DAMAGE) / 10);
-            }
+                attacker.heal((float) attacker.getAttributeValue(Attributes.ATTACK_DAMAGE) / 8);
         }
         return super.hurtEnemy(p_43278_, target, attacker);
     }

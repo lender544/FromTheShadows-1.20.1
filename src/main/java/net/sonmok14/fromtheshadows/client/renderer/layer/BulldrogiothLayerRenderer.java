@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.sonmok14.fromtheshadows.server.Fromtheshadows;
 import net.sonmok14.fromtheshadows.client.renderer.FTSRenderType;
-import net.sonmok14.fromtheshadows.server.entity.BulldrogiothEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.BulldrogiothEntity;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoRenderer;
 import software.bernie.geckolib.renderer.layer.GeoRenderLayer;

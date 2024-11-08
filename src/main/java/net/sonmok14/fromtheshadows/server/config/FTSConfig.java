@@ -38,7 +38,7 @@ public class FTSConfig {
     //--------------------------------------------------------------------------------
     public static double thirst_for_blood_damage = 8.0D;
     public static double thirst_for_blood_laser_damage = 9.0D;
-    public static double devil_splitter_damage = 6.0D;
+    public static double devil_splitter_damage = 7.0D;
     public static int diabolium_helmet_armor_value= 3;
     public static int diabolium_chestplate_armor_value = 8;
     public static int diabolium_leggings_armor_value = 6;

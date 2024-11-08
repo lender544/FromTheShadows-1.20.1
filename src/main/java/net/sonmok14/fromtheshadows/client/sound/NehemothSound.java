@@ -3,7 +3,7 @@ package net.sonmok14.fromtheshadows.client.sound;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
-import net.sonmok14.fromtheshadows.server.entity.NehemothEntity;
+import net.sonmok14.fromtheshadows.server.entity.mob.NehemothEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.SoundRegistry;
 
 public class NehemothSound extends AbstractTickableSoundInstance implements UnlimitedPitch {

@@ -5,7 +5,6 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.raid.Raider;
-import net.sonmok14.fromtheshadows.server.entity.NehemothEntity;
 import net.sonmok14.fromtheshadows.server.utils.registry.EffectRegistry;
 
 public class EffectPlague extends MobEffect {
