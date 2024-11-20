@@ -1,11 +1,15 @@
 package net.sonmok14.fromtheshadows.server.items;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.sonmok14.fromtheshadows.client.renderer.items.PlagueDoctorMaskRenderer;
 import net.sonmok14.fromtheshadows.server.utils.registry.ItemRegistry;
@@ -17,6 +21,7 @@ import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class PlagueDoctorMaskItem extends ArmorItem implements GeoItem {
@@ -63,6 +68,11 @@ public class PlagueDoctorMaskItem extends ArmorItem implements GeoItem {
         return super.isRepairable(stack);
     }
 
-
+    @Override
+    public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(Component.translatable("fromtheshadows.plague_doctor_mask.text").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("fromtheshadows.plague_doctor_mask.text2").withStyle(ChatFormatting.BLUE));
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+    }
 }
 

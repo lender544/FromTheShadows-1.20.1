@@ -114,6 +114,7 @@ public class DevilSplitterItem extends SwordItem implements GeoItem {
     @Override
     public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(Component.translatable("fromtheshadows.devil_splitter.text").withStyle(ChatFormatting.BLUE));
+        tooltip.add(Component.translatable("fromtheshadows.devil_splitter.text2").withStyle(ChatFormatting.BLUE));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 

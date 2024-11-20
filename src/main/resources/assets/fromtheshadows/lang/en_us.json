@@ -37,10 +37,10 @@
   "item.minecraft.splash_potion.effect.frenzy": "Splash Potion of Frenzy",
   "item.minecraft.lingering_potion.effect.frenzy": "Lingering Potion of Frenzy",
   "item.minecraft.tipped_arrow.effect.frenzy": "Arrow of Frenzy",
-  "item.minecraft.potion.effect.bulldrogioth": "Potion of the Bulldrogioth",
-  "item.minecraft.splash_potion.effect.bulldrogioth": "Splash Potion of Bulldrogioth",
-  "item.minecraft.lingering_potion.effect.bulldrogioth": "Lingering Potion of Bulldrogioth",
-  "item.minecraft.tipped_arrow.effect.bulldrogioth": "Arrow of Bulldrogioth",
+  "item.minecraft.potion.effect.hardshell": "Potion of the Hardshell",
+  "item.minecraft.splash_potion.effect.hardshell": "Splash Potion of Hardshell",
+  "item.minecraft.lingering_potion.effect.hardshell": "Lingering Potion of Hardshell",
+  "item.minecraft.tipped_arrow.effect.hardshell": "Arrow of Hardshell",
   "item.minecraft.potion.effect.terrible_plague": "Potion of the Terrible Plague",
   "item.minecraft.splash_potion.effect.terrible_plague": "Splash Potion of Terrible Plague",
   "item.minecraft.lingering_potion.effect.terrible_plague": "Lingering Potion of Terrible Plague",
@@ -66,6 +66,9 @@
   "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_hurt": "Nehemoth whines",
   "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_death": "Nehemoth screams",
   "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_roar": "Nehemoth roars",
+  "fromtheshadows.sound.subtitle.fromtheshadows.bite_warn": "Nehemoth attempts to bite",
+  "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_bite": "Nehemoth bites",
+  "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_charge": "Nehemoth jumps",
 
   "fromtheshadows.sound.subtitle.fromtheshadows.bulldrogioth_idle": "Bulldrogioth growls",
   "fromtheshadows.sound.subtitle.fromtheshadows.bulldrogioth_hurt": "Bulldrogioth whines",
@@ -78,7 +81,10 @@
 
   "fromtheshadows.thirst_for_blood.text": "When you kill the enemy with melee attack, the laser is loaded one by one.",
   "fromtheshadows.thirst_for_blood.text2": "Use the right-click to fire a laser that incinerates the enemy",
-  "fromtheshadows.devil_splitter.text": "It's effective when dealing with demons.",
+  "fromtheshadows.devil_splitter.text": "Deals additional damage to Nehemoth.",
+  "fromtheshadows.devil_splitter.text2": "Killing Nehemoth with this weapon slightly repairs its durability.",
   "fromtheshadows.diablium_armor.text": "If you wear all the armor and damage the enemy,",
-  "fromtheshadows.diablium_armor.text2": "you will recover as much health as part of the damage."
+  "fromtheshadows.diablium_armor.text2": "you will recover as much health as part of the damage.",
+  "fromtheshadows.plague_doctor_mask.text": "Prevents the Spreading Plague effect when equipped.",
+  "fromtheshadows.plague_doctor_mask.text2": "Removes debuffs by consuming durability."
 }

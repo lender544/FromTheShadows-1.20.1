@@ -33,18 +33,18 @@
   "item.fromtheshadows.suspicious_cloth": "수상한 천",
   "item.fromtheshadows.corrupted_heart": "타락한 심장",
 
-  "item.minecraft.potion.effect.frenzy": "Potion of the Frenzy",
-  "item.minecraft.splash_potion.effect.frenzy": "Splash Potion of Frenzy",
-  "item.minecraft.lingering_potion.effect.frenzy": "Lingering Potion of Frenzy",
-  "item.minecraft.tipped_arrow.effect.frenzy": "Arrow of Frenzy",
-  "item.minecraft.potion.effect.bulldrogioth": "Potion of the Bulldrogioth",
-  "item.minecraft.splash_potion.effect.bulldrogioth": "Splash Potion of Bulldrogioth",
-  "item.minecraft.lingering_potion.effect.bulldrogioth": "Lingering Potion of Bulldrogioth",
-  "item.minecraft.tipped_arrow.effect.bulldrogioth": "Arrow of Bulldrogioth",
-  "item.minecraft.potion.effect.terrible_plague": "Potion of the Terrible Plague",
-  "item.minecraft.splash_potion.effect.terrible_plague": "Splash Potion of Terrible Plague",
-  "item.minecraft.lingering_potion.effect.terrible_plague": "Lingering Potion of Terrible Plague",
-  "item.minecraft.tipped_arrow.effect.terrible_plague": "Arrow of Terrible Plague",
+  "item.minecraft.potion.effect.frenzy": "광폭의 물약",
+  "item.minecraft.splash_potion.effect.frenzy": "투척용 광폭의 물약",
+  "item.minecraft.lingering_potion.effect.frenzy": "잔류형 광폭의 물약",
+  "item.minecraft.tipped_arrow.effect.frenzy": "광폭의 화살",
+  "item.minecraft.potion.effect.hardshell": "경화의 물약",
+  "item.minecraft.splash_potion.effect.hardshell": "투척용 경화의 물약",
+  "item.minecraft.lingering_potion.effect.hardshell": "잔류형 경화의 물약",
+  "item.minecraft.tipped_arrow.effect.hardshell": "경화의 화살",
+  "item.minecraft.potion.effect.terrible_plague": "끔찍한 역병의 물약",
+  "item.minecraft.splash_potion.effect.terrible_plague": "투척용 끔찍한 역병의 물약",
+  "item.minecraft.lingering_potion.effect.terrible_plague": "잔류형 끔찍한 역병의 물약",
+  "item.minecraft.tipped_arrow.effect.terrible_plague": "끔찍한 역병의 화살",
 
   "block.fromtheshadows.diabolium_block": "디아볼리움 블록",
 
@@ -66,6 +66,8 @@
   "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_hurt": "Nehemoth whines",
   "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_death": "Nehemoth screams",
   "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_roar": "Nehemoth roars",
+  "fromtheshadows.sound.subtitle.fromtheshadows.bite_warn": "Nehemoth attempts to bite",
+  "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_bite": "Nehemoth bites",
 
   "fromtheshadows.sound.subtitle.fromtheshadows.bulldrogioth_idle": "Bulldrogioth growls",
   "fromtheshadows.sound.subtitle.fromtheshadows.bulldrogioth_hurt": "Bulldrogioth whines",
@@ -78,7 +80,10 @@
 
   "fromtheshadows.thirst_for_blood.text": "적을 죽였을때 레이저 게이지가 한마리당 1씩 찬다",
   "fromtheshadows.thirst_for_blood.text2": "우클릭시 적을 소각시키는 레이저를 발사한다",
-  "fromtheshadows.devil_splitter.text": "악마한테 더욱 효과적이다.",
+  "fromtheshadows.devil_splitter.text": "네헤모스에게 추가적인 피해를 입힌다.",
+  "fromtheshadows.devil_splitter.text2": "네헤모스를 이 무기로 처치하면 내구도가 조금 수리된다.",
   "fromtheshadows.diablium_armor.text": "세트를 입었을시 적을 타격시,",
-  "fromtheshadows.diablium_armor.text2": "준 피해의 일부를 회복한다."
+  "fromtheshadows.diablium_armor.text2": "준 피해의 일부를 회복한다.",
+  "fromtheshadows.plague_doctor_mask.text": "장비시 퍼져나가는 역병의 효과를 받지 않는다.",
+  "fromtheshadows.plague_doctor_mask.text2": "내구도를 소모하여 디버프를 지운다."
 }

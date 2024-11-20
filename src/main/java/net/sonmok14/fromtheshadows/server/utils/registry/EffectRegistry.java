@@ -31,7 +31,7 @@ public class EffectRegistry {
     public static final RegistryObject<MobEffect> BLEEDING = EFFECT.register("bleeding", ()-> new EffectHemorrhage(MobEffectCategory.HARMFUL, 0XCA2D2D));
     public static final RegistryObject<Potion> FRENZY_POTION = POTION.register("frenzy", ()-> new Potion(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 1200, 0),(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 1200, 1))));
     public static final RegistryObject<Potion> TERRIBLE_PLAGUE_POTION = POTION.register("terrible_plague", ()-> new Potion(new MobEffectInstance(EffectRegistry.PLAGUE.get(), 600, 0),(new MobEffectInstance(MobEffects.HUNGER, 300, 1)),(new MobEffectInstance(MobEffects.WEAKNESS, 300, 1))));
-    public static final RegistryObject<Potion> BULLDROGIOTH_POTION = POTION.register("bulldrogioth", ()-> new Potion(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 3),(new MobEffectInstance(MobEffects.HUNGER, 200, 2))));
+    public static final RegistryObject<Potion> BULLDROGIOTH_POTION = POTION.register("hardshell", ()-> new Potion(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 200, 3),(new MobEffectInstance(MobEffects.HUNGER, 200, 2))));
     public static ItemStack createPotion(RegistryObject<Potion> potion){
         return  PotionUtils.setPotion(new ItemStack(Items.POTION), potion.get());
     }
