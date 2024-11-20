@@ -19,12 +19,14 @@
     "sounds": [{"name": "fromtheshadows:cultistidle_1", "stream": true}
     ,{"name": "fromtheshadows:cultistidle_2", "stream": true}
     ,{"name": "fromtheshadows:cultistidle_3", "stream": true},
-      {"name": "fromtheshadows:cultistidle_4", "stream": true}]
+      {"name": "fromtheshadows:cultistidle_4", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.cultist_mumble"
   },
   "cultist_hurt": {
     "sounds": [{"name": "fromtheshadows:cultisthurt_1", "stream": true}
     ,{"name": "fromtheshadows:cultisthurt_2", "stream": true}
-    ,{"name": "fromtheshadows:cultisthurt_3", "stream": true}]
+    ,{"name": "fromtheshadows:cultisthurt_3", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.cultist_hurt"
   },
   "nehemoth_idle": {
     "sounds": [{"name": "fromtheshadows:nehemoth_idle1", "stream": true}
@@ -82,13 +84,16 @@
     "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.nehemoth_death"
   },
   "cultist_death": {
-    "sounds": [{"name": "fromtheshadows:cultistdeath_1", "stream": true},{"name": "fromtheshadows:cultistdeath_2", "stream": true},{"name": "fromtheshadows:cultistdeath_3", "stream": true}]
+    "sounds": [{"name": "fromtheshadows:cultistdeath_1", "stream": true},{"name": "fromtheshadows:cultistdeath_2", "stream": true},{"name": "fromtheshadows:cultistdeath_3", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.cultist_death"
   },
   "cultist_preattack": {
-    "sounds": [{"name": "fromtheshadows:cultistpreattack_1", "stream": true},{"name": "fromtheshadows:cultistpreattack_2", "stream": true}]
+    "sounds": [{"name": "fromtheshadows:cultistpreattack_1", "stream": true},{"name": "fromtheshadows:cultistpreattack_2", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.cultist_preattack"
   },
   "cultist_attack": {
-    "sounds": [{"name": "fromtheshadows:cultistattack_1", "stream": true},{"name": "fromtheshadows:cultistattack_2", "stream": true}]
+    "sounds": [{"name": "fromtheshadows:cultistattack_1", "stream": true},{"name": "fromtheshadows:cultistattack_2", "stream": true}],
+    "subtitle": "fromtheshadows.sound.subtitle.fromtheshadows.cultist_attack"
   },
   "nehemoth_stomp": {
   "sounds": [{"name": "fromtheshadows:stomp_1", "stream": true}

@@ -1,6 +1,7 @@
 package net.sonmok14.fromtheshadows.server.utils.event;
 
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -84,6 +85,32 @@ public class ServerEvents {
     }
     @SubscribeEvent
     public void onLivingDamage(LivingHurtEvent event) {
+
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (player.isCrouching()) {
+            List<Item> armorList = new ArrayList<>(3);
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                if (slot.getType() == EquipmentSlot.Type.ARMOR) {
+                    if (player.getItemBySlot(slot) != null) {
+                        armorList.add(player.getItemBySlot(slot).getItem());
+                    }
+                }
+                boolean isWearingAll = armorList
+                        .containsAll(Arrays.asList(ItemRegistry.CRUST_HEAD.get(),
+                                ItemRegistry.CRUST_CHEST.get(), ItemRegistry.CRUST_LEGGINGS.get()));
+                if (isWearingAll) {
+                    event.setAmount(event.getAmount() * 0.5F);
+                    for (EquipmentSlot crust_armor : new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS}) {
+                        ItemStack armorPiece = player.getItemBySlot(crust_armor);
+                            armorPiece.hurtAndBreak(10, player, (p) -> {
+                                p.broadcastBreakEvent(crust_armor);
+                            });
+                    }
+                    player.level().playSound(null, player.blockPosition(), SoundEvents.SHIELD_BLOCK, SoundSource.PLAYERS, 1.0F, 1.0F);
+                }
+            }
+        }
+
         if (event.getSource() instanceof DamageSource) {
             if (event.getSource().getEntity() instanceof LivingEntity) {
                 LivingEntity attacker = (LivingEntity) event.getSource().getEntity();
@@ -106,7 +133,6 @@ public class ServerEvents {
                             armorList.add(attacker.getItemBySlot(slot).getItem());
                         }
                     }
-
                     boolean isWearingAll = armorList
                             .containsAll(Arrays.asList(ItemRegistry.DIABOLIUM_LEGGINGS.get(),
                                     ItemRegistry.DIABOLIUM_CHEST.get(), ItemRegistry.DIABOLIUM_HEAD.get()));

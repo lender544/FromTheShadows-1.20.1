@@ -85,5 +85,7 @@
   "fromtheshadows.diablium_armor.text": "세트를 입었을시 적을 타격시,",
   "fromtheshadows.diablium_armor.text2": "준 피해의 일부를 회복한다.",
   "fromtheshadows.plague_doctor_mask.text": "장비시 퍼져나가는 역병의 효과를 받지 않는다.",
-  "fromtheshadows.plague_doctor_mask.text2": "내구도를 소모하여 디버프를 지운다."
+  "fromtheshadows.plague_doctor_mask.text2": "내구도를 소모하여 디버프를 지운다.",
+  "fromtheshadows.crust_armor.text": "모든 세트 착용 시 웅크리면 받는 피해를 감소시킨다.",
+  "fromtheshadows.crust_armor.text2": "하지만 내구도가 더 빨리 감소한다."
 }

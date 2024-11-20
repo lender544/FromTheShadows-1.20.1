@@ -52,9 +52,6 @@ public class DiaboliumArmorItem extends ArmorItem implements GeoItem {
     }
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, 20, state -> {
-            return PlayState.STOP;
-        }));
     }
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {

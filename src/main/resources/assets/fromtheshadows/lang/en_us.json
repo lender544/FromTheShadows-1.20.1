@@ -79,6 +79,12 @@
   "fromtheshadows.sound.subtitle.fromtheshadows.soul_laser": "Nehemoth beam shot",
   "fromtheshadows.sound.subtitle.fromtheshadows.soul_laser_ready": "Nehemoth Charging",
 
+  "fromtheshadows.sound.subtitle.fromtheshadows.cultist_mumble": "Cultist mumble",
+  "fromtheshadows.sound.subtitle.fromtheshadows.cultist_hurt": "Cultist hurt",
+  "fromtheshadows.sound.subtitle.fromtheshadows.cultist_death": "Cultist dies",
+  "fromtheshadows.sound.subtitle.fromtheshadows.cultist_preattack": "Cultist prepares to attack",
+  "fromtheshadows.sound.subtitle.fromtheshadows.cultist_attack": "Cultist attack",
+
   "fromtheshadows.thirst_for_blood.text": "When you kill the enemy with melee attack, the laser is loaded one by one.",
   "fromtheshadows.thirst_for_blood.text2": "Use the right-click to fire a laser that incinerates the enemy",
   "fromtheshadows.devil_splitter.text": "Deals additional damage to Nehemoth.",
@@ -86,5 +92,7 @@
   "fromtheshadows.diablium_armor.text": "If you wear all the armor and damage the enemy,",
   "fromtheshadows.diablium_armor.text2": "you will recover as much health as part of the damage.",
   "fromtheshadows.plague_doctor_mask.text": "Prevents the Spreading Plague effect when equipped.",
-  "fromtheshadows.plague_doctor_mask.text2": "Removes debuffs by consuming durability."
+  "fromtheshadows.plague_doctor_mask.text2": "Removes debuffs by consuming durability.",
+  "fromtheshadows.crust_armor.text": "Crouching with the full set reduces damage",
+  "fromtheshadows.crust_armor.text2": "but increases durability loss."
 }

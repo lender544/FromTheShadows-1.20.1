@@ -128,7 +128,7 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
                         event.getController().setAnimationSpeed(1D);
                         return event.setAndContinue(RawAnimation.begin().thenLoop("animation.cultist.run"));
                     }
-                    if (event.isMoving()) {
+                    if (this.walkAnimation.speed() > 0.01F) {
                         event.getController().setAnimationSpeed(1D);
                         return event.setAndContinue(RawAnimation.begin().thenLoop("animation.cultist.walk"));
 
@@ -348,7 +348,7 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, IronGolem.class, true));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, true));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.7D, 25, true));
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 0.5D, 25, true));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(11, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Mob.class, 8.0F));
