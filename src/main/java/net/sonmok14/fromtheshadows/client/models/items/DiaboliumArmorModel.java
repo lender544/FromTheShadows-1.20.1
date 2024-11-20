@@ -8,7 +8,7 @@ import software.bernie.geckolib.model.GeoModel;
 public class DiaboliumArmorModel extends GeoModel<DiaboliumArmorItem> {
     @Override
     public ResourceLocation getModelResource(DiaboliumArmorItem object) {
-        return new ResourceLocation(Fromtheshadows.MODID, "geo/diabolium_armor_re.geo.json");
+        return new ResourceLocation(Fromtheshadows.MODID, "geo/diabolium_armor.geo.json");
     }
 
     @Override
