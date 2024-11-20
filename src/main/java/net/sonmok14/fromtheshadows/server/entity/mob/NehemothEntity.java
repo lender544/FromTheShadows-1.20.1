@@ -791,7 +791,18 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         Entity entity = p_21016_.getEntity();
 
         if (this.attackID == GUARD) {
-            return false;
+            if (p_21016_.getEntity() instanceof LivingEntity attacker) {
+                Vec3 attackDirection = attacker.position().subtract(this.position()).normalize();
+                Vec3 lookDirection = this.getLookAngle().normalize();
+                double dotProduct = attackDirection.dot(lookDirection);
+                if (dotProduct > 0.5) {
+                    playSound(SoundRegistry.BITE_WARN.get(), 2f, 0.5F + getRandom().nextFloat() * 0.1F);
+                    biteCooldown = 0;
+                    breathCooldown = 0;
+                    return false;
+                }
+            }
+            return super.hurt(p_21016_, p_21017_);
         }
         if (p_21016_.is(DamageTypeTags.IS_PROJECTILE)) {
             return super.hurt(p_21016_, p_21017_ / 4);
@@ -986,7 +997,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
             public boolean canUse() {
                 this.attackTarget = this.nehemoth.getTarget();
-                return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3 && random.nextInt(2) == 0 && getVariant() == 0 && nehemoth.getPassengers().isEmpty() && biteCooldown == 0 && attackTarget.getBbWidth() < nehemoth.getBbWidth();
+                return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3 && getVariant() == 0 && nehemoth.getPassengers().isEmpty() && biteCooldown == 0 && attackTarget.getBbWidth() < nehemoth.getBbWidth();
             }
 
             public void start() {
@@ -1214,7 +1225,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
 
         public boolean canUse() {
             this.attackTarget = this.nehemoth.getTarget();
-            return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 3.0D && random.nextInt(6) == 0 && (attackTarget.swinging);
+            return attackTarget != null && this.nehemoth.attackID == 0 && distanceTo(attackTarget) <= 5.0D && random.nextInt(2) == 0 && ((attackTarget.swinging) || nehemoth.hurtTime > 0);
         }
 
         public void start() {
@@ -1240,7 +1251,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
             stuckSpeedMultiplier = Vec3.ZERO;
             if (nehemoth.attacktick < 20 && attackTarget.isAlive()) {
                 yBodyRot = yHeadRot;
-                lookAt(attackTarget, 30.0F, 30.0F);
+                lookAt(attackTarget, 30.0F, 90.0F);
             }
 
             getNavigation().recomputePath();
