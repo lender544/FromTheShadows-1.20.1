@@ -239,24 +239,24 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                     if (dead || getHealth() < 0.01 || isDeadOrDying()) {
                         return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.death"));
                     }
-                        if (this.wasEyeInWater && attackID == 0) {
-                            return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.swim"));
-                        }
-                        if (event.isMoving() && !isAggressive() && attackID == 0) {
-                            return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.walk"));
-                        }
-                        if (attackID != 0) {
-                            event.resetCurrentAnimation();
-                        }
-                        if (this.wasEyeInWater && this.walkAnimation.speed() > 0.35F && isAggressive() && attackID == 0) {
-                            return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.swim"));
-                        }
+                    if (this.wasEyeInWater && attackID == 0) {
+                        return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.swim"));
+                    }
+                    if (event.isMoving() && !isAggressive() && attackID == 0) {
+                        return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.walk"));
+                    }
+                    if (attackID != 0) {
+                        event.resetCurrentAnimation();
+                    }
+                    if (this.wasEyeInWater && this.walkAnimation.speed() > 0.35F && isAggressive() && attackID == 0) {
+                        return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.swim"));
+                    }
 
-                        if (this.walkAnimation.speed() > 0.35F && isAggressive() && attackID == 0) {
-                            event.getController().setAnimationSpeed(1.25D);
-                            return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.walk"));
-                        }
-                        return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.idle"));
+                    if (this.walkAnimation.speed() > 0.35F && isAggressive() && attackID == 0) {
+                        event.getController().setAnimationSpeed(1.25D);
+                        return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.walk"));
+                    }
+                    return event.setAndContinue(RawAnimation.begin().thenLoop("animation.bulldrogioth.idle"));
                 }));
 
         controllerRegistrar.add(
@@ -284,8 +284,8 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
 
                         if(this.attackID == 3) {
                             if(isRight()) {
-                            return event.setAndContinue(RawAnimation.begin().thenPlayAndHold("animation.bulldrogioth.combo_right"));
-                        }
+                                return event.setAndContinue(RawAnimation.begin().thenPlayAndHold("animation.bulldrogioth.combo_right"));
+                            }
                             return event.setAndContinue(RawAnimation.begin().thenPlayAndHold("animation.bulldrogioth.combo_left"));
                         }
                         if(this.attackID == 4) {
@@ -303,14 +303,14 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                     }
                     return PlayState.STOP;
                 }).setSoundKeyframeHandler(event -> {
-                    if (event.getKeyframeData().getSound().matches("attackkey"))
-                        if (this.level().isClientSide)
-                            this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundRegistry.BULLDROGIOTH_ATTACK.get(), SoundSource.HOSTILE, 0.5F, getVoicePitch() + this.getRandom().nextFloat() * 0.1F, true);
+                            if (event.getKeyframeData().getSound().matches("attackkey"))
+                                if (this.level().isClientSide)
+                                    this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundRegistry.BULLDROGIOTH_ATTACK.get(), SoundSource.HOSTILE, 0.5F, getVoicePitch() + this.getRandom().nextFloat() * 0.1F, true);
                             if (event.getKeyframeData().getSound().matches("combokey"))
                                 if (this.level().isClientSide)
                                     this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundRegistry.BULLDROGIOTH_ATTACK.get(), SoundSource.HOSTILE, 0.5F, 0.3f + this.getRandom().nextFloat() * 0.1F, true);
-                }
-                        ));
+                        }
+                ));
 
         controllerRegistrar.add(
                 new AnimationController<>(this, "growling", 20, event -> {
@@ -433,7 +433,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
             float entityHitDistance = (float) Math.sqrt((entityHit.getZ() - this.getZ()) * (entityHit.getZ() - this.getZ()) + (entityHit.getX() - this.getX()) * (entityHit.getX() - this.getX()));
             if (entityHitDistance <= range && (entityRelativeAngle <= arc / 2 && entityRelativeAngle >= -arc / 2) && (entityRelativeAngle >= 360 - arc / 2 == entityRelativeAngle <= -360 + arc / 2)) {
                 if (!(entityHit instanceof BulldrogiothEntity)) {
-                   entityHit.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                    entityHit.hurt(this.damageSources().mobAttack(this), (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 }
 
             }
@@ -457,7 +457,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
             if (this.random.nextInt(4) != 0) {
                 this.attackID = CLAW;
             }
-        else
+            else
                 this.attackID = MELEE_ATTACK;
         }
         return true;
@@ -585,7 +585,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
     }
 
     protected void playStepSound(BlockPos p_33350_, BlockState p_33351_) {
-            this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegistry.STOMP.get(),SoundSource.HOSTILE, 0.25F, 0.35F + this.getRandom().nextFloat() * 0.1F);
+        this.level().playSound(null, this.getX(), this.getY(), this.getZ(), SoundRegistry.STOMP.get(),SoundSource.HOSTILE, 0.25F, 0.35F + this.getRandom().nextFloat() * 0.1F);
 
     }
 
@@ -622,31 +622,31 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
 
     public void coralThorn()
     {
-       if(this.getTarget() != null) {
-           int count = 3;
-           double offsetangle = Math.toRadians(20);
+        if(this.getTarget() != null) {
+            int count = 3;
+            double offsetangle = Math.toRadians(20);
 
-           double d1 = getTarget().getX() - this.getX();
-           double d2 = getTarget().getY() - this.getY();
-           double d3 = getTarget().getZ() - this.getZ();
-           for (int i = 0; i <= (count - 1); ++i) {
-               double angle = (i - ((count - 1) / 4)) * offsetangle;
+            double d1 = getTarget().getX() - this.getX();
+            double d2 = getTarget().getY() - this.getY();
+            double d3 = getTarget().getZ() - this.getZ();
+            for (int i = 0; i <= (count - 1); ++i) {
+                double angle = (i - ((count - 1) / 4)) * offsetangle;
 
 
 
-               CoralThornEntity coralThornEntity = new CoralThornEntity(this.level(), this, null);
+                CoralThornEntity coralThornEntity = new CoralThornEntity(this.level(), this, null);
 
-               double f0 = getTarget().getX() - this.getX();
-               double f1 = getTarget().getY(0.3333333333333333D) - coralThornEntity.getY();
-               double f2 = getTarget().getZ() - this.getZ();
-               double f3 = Math.sqrt(f0 * f0 + f2 * f2);
-               double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
-               double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
+                double f0 = getTarget().getX() - this.getX();
+                double f1 = getTarget().getY(0.3333333333333333D) - coralThornEntity.getY();
+                double f2 = getTarget().getZ() - this.getZ();
+                double f3 = Math.sqrt(f0 * f0 + f2 * f2);
+                double x = d1 * Math.cos(angle) + d3 * Math.sin(angle);
+                double z = -d1 * Math.sin(angle) + d3 * Math.cos(angle);
 
-               coralThornEntity.shoot(x, f1 + f3 * (double) 0.2F, z, 1.5F, (float)(16 - this.level().getDifficulty().getId() * 4));
-               this.level().addFreshEntity(coralThornEntity);
-           }
-       }
+                coralThornEntity.shoot(x, f1 + f3 * (double) 0.2F, z, 1.5F, (float)(16 - this.level().getDifficulty().getId() * 4));
+                this.level().addFreshEntity(coralThornEntity);
+            }
+        }
     }
 
     public void coralThornFive()
@@ -809,7 +809,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         public boolean requiresUpdateEveryTick() {
             return true;
         }
-        
+
         @Override
         public boolean canContinueToUse() {
             return attacktick < 55;
@@ -821,17 +821,17 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                 lookAt(attackTarget, 30.0F, 30.0F);
             }
 
-                if (attacktick == 29) {
-                    float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
-                    float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
-                    push(f1 * 1, 0, f2 * 1);
-                }
-                if (attacktick == 32) {
-                    breakBlock();
-                    meleeattack();
-                    ScreenShakeEntity.ScreenShake(level(), position(), 5, 0.4f, 5, 3);
-                    playSound(SoundEvents.WITHER_BREAK_BLOCK, 1.0F, 1.0F);
-                }
+            if (attacktick == 29) {
+                float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
+                float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
+                push(f1 * 1, 0, f2 * 1);
+            }
+            if (attacktick == 32) {
+                breakBlock();
+                meleeattack();
+                ScreenShakeEntity.ScreenShake(level(), position(), 5, 0.4f, 5, 3);
+                playSound(SoundEvents.WITHER_BREAK_BLOCK, 1.0F, 1.0F);
+            }
 
 
             double dist = (double)distanceTo(attackTarget);
@@ -998,7 +998,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
             }
             if (attacktick == 28) {
                 coralThorn();
-                }
+            }
         }
     }
 
@@ -1020,7 +1020,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         @Override
         public void stop() {
             setAttackID(0);
-           attackTarget = null;
+            attackTarget = null;
         }
         public boolean requiresUpdateEveryTick() {
             return true;
@@ -1057,7 +1057,7 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
                 attackTarget.hurt(damageSources().mobAttack(BulldrogiothEntity.this), (float) getAttributeValue(Attributes.ATTACK_DAMAGE) / 2);
             }
         }
-        }
+    }
 
     class BiteAttackGoal extends Goal {
         private LivingEntity attackTarget;
@@ -1088,19 +1088,19 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
         @Override
         public void tick() {
-                if (attacktick == 30) {
-                    if (attackTarget != null) {
-                        getLookControl().tick();
-                        getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
-                    }
-                    float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
-                    float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
-                    push(f1 * 1.5, 0.0, f2 * 1.5);
+            if (attacktick == 30) {
+                if (attackTarget != null) {
+                    getLookControl().tick();
+                    getLookControl().setLookAt(attackTarget, 90.0F, 90.0F);
                 }
-                if (attacktick == 33) {
-                    meleeattack();
-                    breakBlock();
-                }
+                float f1 = (float) Math.cos(Math.toRadians(getYRot() + 90));
+                float f2 = (float) Math.sin(Math.toRadians(getYRot() + 90));
+                push(f1 * 1.5, 0.0, f2 * 1.5);
+            }
+            if (attacktick == 33) {
+                meleeattack();
+                breakBlock();
+            }
             double dist = distanceTo(attackTarget);
             if (attacktick == 33 && dist <= 4 && attackTarget != null) {
                 attackTarget.hurt(damageSources().mobAttack(BulldrogiothEntity.this), (float) getAttributeValue(Attributes.ATTACK_DAMAGE) / 3);
@@ -1222,4 +1222,4 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         }
     }
 
-    }
+}
