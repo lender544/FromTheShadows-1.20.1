@@ -70,6 +70,11 @@ public class EntityRegistry {
             .noSummon()
             .setUpdateInterval(Integer.MAX_VALUE)
             .build(Fromtheshadows.MODID + ":coral_thorn"));
+    public static final RegistryObject<EntityType<EntityTrackingProjectile>> TRACKING_PROJECTILE = ENTITY_TYPES.register("tracking_projectile", () -> EntityType.Builder.<EntityTrackingProjectile>of(EntityTrackingProjectile::new, MobCategory.MISC)
+            .sized(1.0f, 1.0f)
+            .noSummon()
+            .setUpdateInterval(Integer.MAX_VALUE)
+            .build(Fromtheshadows.MODID + ":coral_thorn"));
     public static final RegistryObject<EntityType<ThrowingDaggerEntity>> THROWING_DAGGER = ENTITY_TYPES.register("throwing_dagger", () -> EntityType.Builder.<ThrowingDaggerEntity>of(ThrowingDaggerEntity::new, MobCategory.MISC)
             .sized(1.0f, 1.0f)
             .noSummon()

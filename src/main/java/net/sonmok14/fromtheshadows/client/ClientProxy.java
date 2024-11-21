@@ -42,6 +42,7 @@ public class ClientProxy extends CommonProxy {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         MinecraftForge.EVENT_BUS.register(new ClientEvents());
         EntityRenderers.register(EntityRegistry.THROWING_DAGGER.get(), ThrowingDaggerRenderer::new);
+        EntityRenderers.register(EntityRegistry.TRACKING_PROJECTILE.get(), EntityTrackingProjectileRenderer::new);
         EntityRenderers.register(EntityRegistry.CORAL_THORN.get(), CoralThornRenderer::new);
         EntityRenderers.register(EntityRegistry.BULLDROGIOTH.get(), BulldrogiothRenderer::new);
         EntityRenderers.register(EntityRegistry.FROGLIN_VOMIT.get(), FroglinVomitRenderer::new);
