@@ -108,6 +108,7 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         this.setPathfindingMalus(BlockPathTypes.LAVA, 8.0F);
         this.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 0.0F);
+        setConfigattribute(this, FTSConfig.nehemoth_health_multiplier, FTSConfig.nehemoth_melee_damage_multiplier);
         xpReward = 30;
     }
     //animation
