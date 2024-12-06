@@ -319,6 +319,9 @@ public class NehemothEntity extends Monster implements Enemy, GeoEntity {
         this.entityData.set(VARIANT, Integer.valueOf(variant));
     }
 
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+        return EntityRegistry.rollSpawn(FTSConfig.nehemothSpawnRolls, this.getRandom(), spawnReasonIn);
+    }
 
     @Override
     @Nullable

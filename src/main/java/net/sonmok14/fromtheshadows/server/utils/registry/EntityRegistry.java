@@ -50,13 +50,11 @@ public class EntityRegistry {
     public static final RegistryObject<EntityType<DoomBreathEntity>> DOOM_BREATH = ENTITY_TYPES.register("doom_breath", () -> EntityType.Builder.<DoomBreathEntity>of(DoomBreathEntity::new, MobCategory.MISC)
             .noSummon()
             .sized(1.0f, 1.0f)
-            .setUpdateInterval(Integer.MAX_VALUE)
             .build(Fromtheshadows.MODID + ":doom_breath"));
 
     public static final RegistryObject<EntityType<PlayerBreathEntity>> PLAYER_BREATH = ENTITY_TYPES.register("player_breath", () -> EntityType.Builder.<PlayerBreathEntity>of(PlayerBreathEntity::new, MobCategory.MISC)
             .noSummon()
             .sized(1.0f, 1.0f)
-            .setUpdateInterval(Integer.MAX_VALUE)
             .build(Fromtheshadows.MODID + ":player_breath"));
 
     public static final RegistryObject<EntityType<PlayerProjectileEntity>> PLAYER_PROJECTILE = ENTITY_TYPES.register("player_projectile", () -> EntityType.Builder.<PlayerProjectileEntity>of(PlayerProjectileEntity::new, MobCategory.MISC)
@@ -68,22 +66,22 @@ public class EntityRegistry {
     public static final RegistryObject<EntityType<CoralThornEntity>> CORAL_THORN = ENTITY_TYPES.register("coral_thorn", () -> EntityType.Builder.<CoralThornEntity>of(CoralThornEntity::new, MobCategory.MISC)
             .sized(1.0f, 1.0f)
             .noSummon()
-            .setUpdateInterval(Integer.MAX_VALUE)
+            .updateInterval(20)
             .build(Fromtheshadows.MODID + ":coral_thorn"));
     public static final RegistryObject<EntityType<EntityTrackingProjectile>> TRACKING_PROJECTILE = ENTITY_TYPES.register("tracking_projectile", () -> EntityType.Builder.<EntityTrackingProjectile>of(EntityTrackingProjectile::new, MobCategory.MISC)
             .sized(1.0f, 1.0f)
             .noSummon()
             .setUpdateInterval(Integer.MAX_VALUE)
-            .build(Fromtheshadows.MODID + ":coral_thorn"));
+            .build(Fromtheshadows.MODID + ":tracking_projectile"));
     public static final RegistryObject<EntityType<ThrowingDaggerEntity>> THROWING_DAGGER = ENTITY_TYPES.register("throwing_dagger", () -> EntityType.Builder.<ThrowingDaggerEntity>of(ThrowingDaggerEntity::new, MobCategory.MISC)
             .sized(1.0f, 1.0f)
             .noSummon()
-            .setUpdateInterval(Integer.MAX_VALUE)
+            .updateInterval(20)
             .build(Fromtheshadows.MODID + ":throwing_dagger"));
     public static final RegistryObject<EntityType<FrogVomit>> FROGLIN_VOMIT = ENTITY_TYPES.register("froglin_vomit", () -> EntityType.Builder.<FrogVomit>of(FrogVomit::new, MobCategory.MISC)
             .noSummon()
             .sized(1.0f, 1.0f)
-            .setUpdateInterval(Integer.MAX_VALUE)
+            .updateInterval(10)
             .build(Fromtheshadows.MODID + ":froglin_vomit"));
 
     public static Predicate<LivingEntity> buildPredicateFromTag(TagKey<EntityType<?>> entityTag){

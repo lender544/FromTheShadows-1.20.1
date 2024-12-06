@@ -50,6 +50,7 @@ import net.sonmok14.fromtheshadows.server.config.FTSConfig;
 import net.sonmok14.fromtheshadows.server.entity.ai.*;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.CoralThornEntity;
 import net.sonmok14.fromtheshadows.server.entity.projectiles.ScreenShakeEntity;
+import net.sonmok14.fromtheshadows.server.utils.registry.EntityRegistry;
 import net.sonmok14.fromtheshadows.server.utils.registry.SoundRegistry;
 import org.jetbrains.annotations.Nullable;
 import software.bernie.geckolib.animatable.GeoEntity;
@@ -138,6 +139,9 @@ public class BulldrogiothEntity extends Monster implements Enemy, GeoEntity, ISe
         return worldIn.getBiome(position).is(Biomes.SWAMP) || worldIn.getBiome(position).is(Biomes.MANGROVE_SWAMP);
     }
 
+    public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
+        return EntityRegistry.rollSpawn(FTSConfig.bulldrogiothSpawnRolls, this.getRandom(), spawnReasonIn);
+    }
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {

@@ -222,7 +222,7 @@ public class ClericEntity extends AbstractIllager implements GeoEntity {
     }
 
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
-        return EntityRegistry.rollSpawn(FTSConfig.bulldrogiothSpawnRolls, this.getRandom(), spawnReasonIn);
+        return EntityRegistry.rollSpawn(FTSConfig.clericSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
     @Nullable
