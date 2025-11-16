@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "#B#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "fromtheshadows:crystallized_fragment"
+    },
+    "B": {
+      "item": "minecraft:iron_sword"
+    }
+  },
+  "result": {
+    "item": "fromtheshadows:crystallized_dagger",
+    "count": 1
+  }
+}

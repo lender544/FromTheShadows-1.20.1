@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " i ",
+    " iS",
+    "Q/S"
+  ],
+  "key": {
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "fromtheshadows:crystallized_blood"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "/": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "fromtheshadows:devil_splitter",
+    "count": 1
+  }
+}

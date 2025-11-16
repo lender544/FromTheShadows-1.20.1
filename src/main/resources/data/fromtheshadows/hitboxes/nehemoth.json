@@ -1,0 +1,80 @@
+{
+	"elements": [
+		{
+			"name": "top",
+			"pos": [0, 27, 1],
+			"width": 14,
+			"height": 13,
+			"ref": "top_hitbox"
+		},
+		{
+			"name": "bottom",
+			"pos": [0, 21, -1],
+			"width": 8,
+			"height": 6,
+			"ref": "bottom_hitbox"
+		},
+		{
+			"name": "head",
+			"pos": [0, 39, 11],
+			"width": 8,
+			"height": 11,
+			"ref": "head_hitbox"
+		},
+		{
+			"name": "neck",
+			"pos": [0, 36, 5],
+			"width": 6,
+			"height": 8,
+			"ref": "neck_hitbox"
+		},
+		{
+			"name": "right_arm_pivot",
+			"pos": [-10.5, 28, -0.5],
+			"width": 7,
+			"height": 12,
+			"ref": "right_arm_pivot_hitbox"
+		},
+		{
+			"name": "left_arm_pivot",
+			"pos": [10.5, 28, -0.5],
+			"width": 7,
+			"height": 12,
+			"ref": "left_arm_pivot_hitbox"
+		},
+		{
+			"name": "left_lower_arm",
+			"pos": [14.5, 20, -0.5],
+			"width": 7,
+			"height": 12,
+			"ref": "left_lower_arm_hitbox"
+		},
+		{
+			"name": "right_lower_arm",
+			"pos": [-14.5, 20, -0.5],
+			"width": 7,
+			"height": 12,
+			"ref": "right_lower_arm_hitbox"
+		},
+		{
+			"name": "right_leg",
+			"pos": [6, 14, 1],
+			"width": 6,
+			"height": 11,
+			"ref": "right_leg_hitbox"
+		},
+		{
+			"name": "left_leg",
+			"pos": [-6, 14, 1],
+			"width": 6,
+			"height": 11,
+			"ref": "left_leg_hitbox"
+		},
+		{
+			"name": "rider_pos",
+			"pos": [-8.69594, 19.47187, 0.28401],
+			"ref": "rider_pos",
+			"is_anchor": true
+		}
+	]
+}

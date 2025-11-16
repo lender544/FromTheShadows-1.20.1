@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "fromtheshadows:crystallized_blood"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "fromtheshadows:crystallized_fragment"
+  }
+}

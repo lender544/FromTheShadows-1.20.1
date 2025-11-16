@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "fromtheshadows:crystallized_blood",
+  "key": {
+    "#": {
+      "item": "fromtheshadows:crystallized_fragment"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "fromtheshadows:crystallized_blood"
+  },
+  "show_notification": true
+}

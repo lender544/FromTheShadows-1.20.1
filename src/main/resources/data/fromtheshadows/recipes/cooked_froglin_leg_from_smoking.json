@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "fromtheshadows:froglin_leg"
+  },
+  "result": "fromtheshadows:cooked_froglin_leg",
+  "experience": 0.35,
+  "cookingtime": 100
+}

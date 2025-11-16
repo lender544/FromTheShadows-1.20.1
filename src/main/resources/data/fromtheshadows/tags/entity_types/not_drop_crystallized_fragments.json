@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:player",
+    "#forge:bosses",
+    "#minecraft:skeletons",
+    "#minecraft:frog_food"
+  ]
+}
